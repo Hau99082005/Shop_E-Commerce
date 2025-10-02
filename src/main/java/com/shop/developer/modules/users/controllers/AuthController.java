@@ -1,7 +1,7 @@
 package com.shop.developer.modules.users.controllers;
 
-import com.shop.developer.modules.users.dtos.LoginRequest;
-import com.shop.developer.modules.users.dtos.LoginResponse;
+import com.shop.developer.modules.users.request.LoginRequest;
+import com.shop.developer.modules.users.resources.LoginResources;
 import com.shop.developer.modules.users.services.interfaces.UserServicesInterface;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +22,8 @@ public class AuthController {
      this.userService = userService;
    }
    @PostMapping("login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-       LoginResponse auth = userService.login(request);
+    public ResponseEntity<LoginResources> login(@RequestBody LoginRequest request) {
+       LoginResources auth = userService.login(request);
        return ResponseEntity.ok(auth); //kết trả sẽ trả về
    }
 

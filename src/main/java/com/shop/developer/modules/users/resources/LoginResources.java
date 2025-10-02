@@ -1,10 +1,10 @@
-package com.shop.developer.modules.users.dtos;
+package com.shop.developer.modules.users.resources;
 
-public class LoginResponse {
+public class LoginResources {
     private final String token; //là 1 chuỗi ký tự đại diện cho phiên đăng nhập của người dùng
-    private final UserDTO user; //là đối tượng UserDTO chứa thông tin người dùng(users)
+    private final UserResources user; //là đối tượng UserDTO chứa thông tin người dùng(users)
     //lớp contructor
-    public LoginResponse(String token, UserDTO user) { 
+    public LoginResources(String token, UserResources user) { 
         super(); //chứa các thuộc tính của lớp cha
         this.token = token;
         this.user = user;
@@ -12,7 +12,7 @@ public class LoginResponse {
     public String getToken() {
         return token;
     }
-    public UserDTO getUser() {
+    public UserResources getUser() {
         return user;
     }
 

@@ -1,4 +1,4 @@
-package com.shop.developer.modules.users.dtos;
+package com.shop.developer.modules.users.request;
 
 public class LoginRequest {
     private String email;
