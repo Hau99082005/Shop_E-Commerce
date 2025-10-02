@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shop.developer.modules.categories.models.Categories;
 import com.shop.developer.modules.users.models.User;
 import com.shop.developer.modules.users.repositories.UserRepository;
 
@@ -72,12 +73,25 @@ public class DatabaseSeeders implements CommandLineRunner{
         ////cách 4: truyền dữ liệu có tham số vào users
         User user = new User("Hau99082005@gmail.com", passwordEncode, "0367722389", "Thôn Thống Nhất - Xã Hải Bình - Tỉnh Quảng Trị", "", "admin");
         userRepository.save(user); //Phương thức user dùng để lưu 1 đối tượng entity(có thể là model) vào database
-        logger.info("Seeding user data completed.");        
-        }
-        
+        logger.info("Seeding user data completed.");   
     }
+
+    if (isCategoriesTableEmpty()) {
+    Categories category = new Categories();
+    category.setName("Thời trang nam");
+    category.setThumbnail("687f3967b7c2fe6a134a2c11894eea4b@resize_w640_nl.webp");
+    category.setStatus(true);
+    entityManager.persist(category); // hoặc dùng repository
+    logger.info("✅ Seeding categories completed.");
+}
+    }
+
     private boolean isTableEmpty() {
         Long count = (Long) entityManager.createQuery("SELECT COUNT(id) FROM User").getSingleResult();
         return count == 0;
     }
+    private boolean isCategoriesTableEmpty() {
+    Long count = (Long) entityManager.createQuery("SELECT COUNT(c.id) FROM Categories c").getSingleResult();
+    return count == 0;
+}
 }
