@@ -1,5 +1,8 @@
 package com.shop.developer.databases.seeders;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +12,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shop.developer.modules.categories.models.Categories;
+import com.shop.developer.modules.gallery.models.Gallery;
+import com.shop.developer.modules.products.models.Products;
 import com.shop.developer.modules.users.models.User;
 import com.shop.developer.modules.users.repositories.UserRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-
-import java.util.Arrays;
-import java.util.List;
-
-import com.shop.developer.modules.products.models.Products;
 
 @Component
 public class DatabaseSeeders implements CommandLineRunner {
@@ -70,9 +70,14 @@ public class DatabaseSeeders implements CommandLineRunner {
 
         // Seed user
         if (isUserTableEmpty()) {
-            String passwordEncode = passwordEncoder.encode("22082005");
-            User user = new User("Hau99082005@gmail.com", passwordEncode, "0367722389",
-                    "Thôn Thống Nhất - Xã Hải Bình - Tỉnh Quảng Trị", "", "admin");
+            String password = "22082005";
+            User user = new User();
+            user.setEmail("hau99082005@gmail.com");
+            user.setPassword(passwordEncoder.encode(password));
+            user.setPhone("0367722389");
+            user.setAddress("Thôn Thống Nhất - Xã Hải Bình - Tỉnh Quảng Trị");
+            user.setImage("");
+            user.setRole("admin");
             userRepository.save(user);
             logger.info("✅ Seeding user data completed.");
         }
@@ -119,6 +124,24 @@ public class DatabaseSeeders implements CommandLineRunner {
 
             logger.info("seeding products data completed.");
         }
+
+        //seed gallery
+        if(isGalleryTableEmpty()) {
+            List<Gallery> galleryList = Arrays.asList(
+                new Gallery(null, "vn-11134207-7ras8-m1pdq91ripg325.webp", 2),
+                new Gallery(null, "vn-11134207-7ras8-m1pdq91rfwlbc4.webp", 2),
+                new Gallery(null, "vn-11134207-7ras8-m3ahsqeyb9y9d5.webp", 2),
+                new Gallery(null, "vn-11134207-7ras8-m1pdq91r8vgzc0.webp", 2),
+                new Gallery(null, "vn-11134207-7ras8-m1pdq92v8nkja3.webp", 2),
+                new Gallery(null, "vn-11134207-7ras8-m1pdq91rd36bf4.webp", 2),
+                new Gallery(null, "vn-11134207-7r98o-lybna3p25oi53b.webp", 2)
+            );
+
+            for(Gallery g: galleryList) {
+                entityManager.persist(g);
+            }
+            logger.info("seeding gallery data completed");
+        }
     }
 
     private boolean isUserTableEmpty() {
@@ -133,6 +156,11 @@ public class DatabaseSeeders implements CommandLineRunner {
 
     private boolean isProductsTableEmpty() {
         Long count = (Long) entityManager.createQuery("SELECT COUNT(p.id) FROM Products p").getSingleResult();
+        return count == 0;
+    }
+
+    private boolean isGalleryTableEmpty() {
+        Long count = (Long) entityManager.createQuery("SELECT COUNT(g.id) FROM Gallery g").getSingleResult();
         return count == 0;
     }
 }

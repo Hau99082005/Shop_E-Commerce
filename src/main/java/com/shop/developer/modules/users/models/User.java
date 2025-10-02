@@ -9,10 +9,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor //tạo constructor không có tham số
+@AllArgsConstructor //tạo constructor có tất cả các tham số
+@Data //tự động tạo các phương thức getter, setter, toString, equals, hashCode
 @Entity
 @Table(name="users") //tên bảng trong database
 public class User {
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
@@ -44,89 +51,5 @@ public class User {
     protected void onUpdate() { // phương thức sẽ được gọi trước khi thức hiện update đối tượng trong database.
         updatedAt = LocalDateTime.now();
     }
-
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public String getPhone() {
-        return phone;
-    }
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-    public String getAddress() {
-        return address;
-    }
-    public void setAddress(String address) {
-        this.address = address;
-    }
-    public String getImage() {
-        return image;
-    }
-    public void setImage(String image) {
-        this.image = image;
-    }
-    public String getRole() {
-        return role;
-    }
-    public void setRole(String role) {
-        this.role = role;
-    }
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-    public void setCreateAt(LocalDateTime createAt) {
-        this.createdAt = createAt;
-    }
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-    //khai baos constructor không có tham số
-    public User() {
-        super();
-    }
-    
-    public User(Long id, String email, String password, String phone, String address, String image, String role,
-    LocalDateTime createdAt, LocalDateTime updatedAt) {
-        super();
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.address = address;
-        this.image = image;
-        this.role = role;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-        //  Constructor rút gọn (không cần truyền id, createdAt, updatedAt)
-    public User(String email, String password, String phone, String address, String image, String role) {
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.address = address;
-        this.image = image;
-        this.role = role;
-    }
-
 
 }

@@ -1,7 +1,15 @@
 package com.shop.developer.modules.users.request;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
 
 public class LoginRequest {
+
+    @NotBlank(message = "Email không được để trống")
+    @Email(message = "Email không hợp lệ")
     private String email;
+
+
     private String password;
 
     public String getEmail() {
