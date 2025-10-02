@@ -1,4 +1,5 @@
 package com.shop.developer.databases.seeders;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,32 +15,29 @@ import com.shop.developer.modules.users.repositories.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+import java.util.Arrays;
+import java.util.List;
+
+import com.shop.developer.modules.products.models.Products;
+
 @Component
-public class DatabaseSeeders implements CommandLineRunner{
+public class DatabaseSeeders implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(DatabaseSeeders.class);
 
-     @PersistenceContext
-     private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-     @Autowired
-     private PasswordEncoder passwordEncoder;
-     
     @Autowired
-    private UserRepository userRepository; //trường hợp nếu k sử dụng autowired thì sử dụng khai báo contructor
-    // public DatabaseSeeders(UserRepository userRepository) {
-    //     super();
-    //     this.userRepository = userRepository;
-    // }
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional
     @Override
     public void run(String... args) throws Exception {
-      
-        if(isTableEmpty()) {
-            String password = "22082005";
-            String passwordEncode = passwordEncoder.encode(password);
-        ////cách 1:
+         ////cách 1:
         //     entityManager.createNativeQuery("INSERT INTO users(email, password, phone, address, image, role) VALUES(?,?,?,?,?,?)")
         //     .setParameter(1, "hau99082005@gmail.com")
         //     .setParameter(2, passwordEncode)
@@ -70,28 +68,71 @@ public class DatabaseSeeders implements CommandLineRunner{
         // user.setRole("admin");
         // userRepository.save(user); //phuowng thức save() này dùng để truyền vào 1 đối tượng entity(có thể là model) để lưu vào database
 
-        ////cách 4: truyền dữ liệu có tham số vào users
-        User user = new User("Hau99082005@gmail.com", passwordEncode, "0367722389", "Thôn Thống Nhất - Xã Hải Bình - Tỉnh Quảng Trị", "", "admin");
-        userRepository.save(user); //Phương thức user dùng để lưu 1 đối tượng entity(có thể là model) vào database
-        logger.info("Seeding user data completed.");   
+        // Seed user
+        if (isUserTableEmpty()) {
+            String passwordEncode = passwordEncoder.encode("22082005");
+            User user = new User("Hau99082005@gmail.com", passwordEncode, "0367722389",
+                    "Thôn Thống Nhất - Xã Hải Bình - Tỉnh Quảng Trị", "", "admin");
+            userRepository.save(user);
+            logger.info("✅ Seeding user data completed.");
+        }
+
+        // Seed categories
+        if (isCategoriesTableEmpty()) {
+            List<Categories> categoriesList = Arrays.asList(
+                new Categories(null, "Điện thoại & Phụ Kiện", "31234a27876fb89cd522d7e3db1ba5ca@resize_w640_nl.webp", true),
+                new Categories(null, "Thời trang Nam", "687f3967b7c2fe6a134a2c11894eea4b@resize_w640_nl.webp", true),
+                new Categories(null, "Thiết bị điện tử", "978b9e4cb61c611aaaf58664fae133c5@resize_w640_nl.webp", true),
+                new Categories(null, "Máy tính & Laptop", "c3f3edfaa9f6dafc4825b77d8449999d@resize_w640_nl.webp", true),
+                new Categories(null, "Máy ảnh và Máy quay phim", "ec14dd4fc238e676e43be2a911414d4d@resize_w640_nl.webp", true)
+            );
+
+            for (Categories c : categoriesList) {
+                entityManager.persist(c);
+            }
+
+            logger.info("✅ Seeding categories data completed.");
+        }
+
+        //seed products
+        if(isProductsTableEmpty()) {
+           List<Products> productsList = Arrays.asList(
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true),
+            new Products(null,"Áo thun body nam cổ tròn FLOMAN ver1 chất thun gân, áo thun thể thao gym form tôn dáng", "vn-11134207-7ras8-m111t8urpdejc0.webp", "Thiết kế lên form, không dư thừa, và đường chỉ sắc nét cùng bo viền không lộ, sản phẩm mang lại sự khoẻ khoắn và thoải mái cho người mặc.", 300.000, 400.000, 100, 100, 2, true)
+           );
+
+           for(Products p: productsList) {
+            entityManager.persist(p);
+           }
+
+            logger.info("seeding products data completed.");
+        }
     }
 
-    if (isCategoriesTableEmpty()) {
-    Categories category = new Categories();
-    category.setName("Thời trang nam");
-    category.setThumbnail("687f3967b7c2fe6a134a2c11894eea4b@resize_w640_nl.webp");
-    category.setStatus(true);
-    entityManager.persist(category); // hoặc dùng repository
-    logger.info("✅ Seeding categories completed.");
-}
-    }
-
-    private boolean isTableEmpty() {
-        Long count = (Long) entityManager.createQuery("SELECT COUNT(id) FROM User").getSingleResult();
+    private boolean isUserTableEmpty() {
+        Long count = (Long) entityManager.createQuery("SELECT COUNT(u.id) FROM User u").getSingleResult();
         return count == 0;
     }
+
     private boolean isCategoriesTableEmpty() {
-    Long count = (Long) entityManager.createQuery("SELECT COUNT(c.id) FROM Categories c").getSingleResult();
-    return count == 0;
-}
+        Long count = (Long) entityManager.createQuery("SELECT COUNT(c.id) FROM Categories c").getSingleResult();
+        return count == 0;
+    }
+
+    private boolean isProductsTableEmpty() {
+        Long count = (Long) entityManager.createQuery("SELECT COUNT(p.id) FROM Products p").getSingleResult();
+        return count == 0;
+    }
 }
