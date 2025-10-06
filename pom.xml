@@ -90,6 +90,31 @@
     <scope>runtime</scope>
 </dependency>
 
+
+  <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt-api</artifactId>
+        <version>0.11.5</version>
+    </dependency>
+
+    <!-- Cung cấp phần hiện thực (implementation) -->
+    <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt-impl</artifactId>
+        <version>0.11.5</version>
+        <scope>runtime</scope>
+    </dependency>
+
+    <!-- Hỗ trợ mã hóa và giải mã (JWT ký bằng HS256, HS512, RSA,...) -->
+    <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt-jackson</artifactId> <!-- hoặc jjwt-gson nếu bạn thích dùng Gson -->
+        <version>0.11.5</version>
+        <scope>runtime</scope>
+    </dependency>
+
+
+
 <dependency>
     <groupId>com.github.javafaker</groupId>
     <artifactId>javafaker</artifactId>
