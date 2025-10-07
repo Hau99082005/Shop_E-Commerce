@@ -1,5 +1,6 @@
 package com.shop.developer.modules.users.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shop.developer.modules.users.request.LoginRequest;
 import com.shop.developer.modules.users.resources.LoginResources;
 import com.shop.developer.modules.users.services.interfaces.UserServicesInterface;
+import com.shop.developer.resources.ErrorResource;
 
 import jakarta.validation.Valid;
 
@@ -22,13 +24,20 @@ public class AuthController {
 
    public AuthController( UserServicesInterface userService) {
      super(); //chứa các thông tin của thuộc tính cha
-     this.userService = userService;
+     this.userService = userService; 
    }
    @PostMapping("login")
-    public ResponseEntity<LoginResources> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {  //? là khai báo một biến
       // return ResponseEntity.ok("123");
-       LoginResources auth = userService.login(request);
-       return ResponseEntity.ok(auth); //kết trả sẽ trả về
+       Object result = userService.authenticate(request);
+       if(result instanceof LoginResources loginResources) {
+         return ResponseEntity.ok(loginResources); //kết trả sẽ trả về
+       }
+       if(result instanceof ErrorResource errorResource) {
+        return ResponseEntity.unprocessableEntity().body(errorResource);
+       }
+
+       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Network Error");
    }
 
 }

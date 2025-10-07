@@ -27,6 +27,8 @@ public class User {
     private String email;
      @Column(nullable = false, length = 255)
     private String password;
+     @Column(length= 255)
+    private String name;
     @Column(nullable = false, unique = true, length = 15)
     private String phone;
     @Column(length = 255)
@@ -51,5 +53,7 @@ public class User {
     protected void onUpdate() { // phương thức sẽ được gọi trước khi thức hiện update đối tượng trong database.
         updatedAt = LocalDateTime.now();
     }
+
+
 
 }

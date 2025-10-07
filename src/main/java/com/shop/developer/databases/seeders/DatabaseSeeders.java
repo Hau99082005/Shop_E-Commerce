@@ -73,6 +73,7 @@ public class DatabaseSeeders implements CommandLineRunner {
             String password = "22082005";
             User user = new User();
             user.setEmail("hau99082005@gmail.com");
+            user.setName("Lê Văn Hậu");
             user.setPassword(passwordEncoder.encode(password));
             user.setPhone("0367722389");
             user.setAddress("Thôn Thống Nhất - Xã Hải Bình - Tỉnh Quảng Trị");

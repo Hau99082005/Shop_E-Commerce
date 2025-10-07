@@ -55,6 +55,7 @@
 			<scope>test</scope>
 		</dependency>
 
+
 		<!-- Flyway Core -->
 		<dependency>
 			<groupId>org.flywaydb</groupId>
@@ -113,6 +114,12 @@
         <scope>runtime</scope>
     </dependency>
 
+	<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-core</artifactId>
+</dependency>
+
+
 
 
 <dependency>
@@ -130,6 +137,12 @@
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+
+<!-- Spring Security đầy đủ -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
 </dependency>
 
 

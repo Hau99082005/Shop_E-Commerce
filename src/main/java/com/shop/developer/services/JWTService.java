@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.shop.developer.config.JwtConfig;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -35,8 +36,10 @@ public class JWTService {
            .signWith(key, SignatureAlgorithm.HS256)
            .compact();
            //sử dụng thuật toán HS256 để tạo token với key đã mã hoá 
-           
     }
-    
-    
+
+    public String getUserIdFromJwt(String token) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return claims.getSubject();
+    }
 }
