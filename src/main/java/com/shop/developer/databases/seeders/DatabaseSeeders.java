@@ -1,5 +1,4 @@
 package com.shop.developer.databases.seeders;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shop.developer.modules.banner.models.Banner;
 import com.shop.developer.modules.categories.models.Categories;
 import com.shop.developer.modules.gallery.models.Gallery;
 import com.shop.developer.modules.products.models.Products;
@@ -143,6 +143,21 @@ public class DatabaseSeeders implements CommandLineRunner {
             }
             logger.info("seeding gallery data completed");
         }
+        //seed banner
+        if (isBannerTableEmpty()) {
+        List<Banner> bannerList = Arrays.asList(
+        new Banner(null, "banner", "banner.png", true),
+        new Banner(null, "banner", "banner1.png", true),
+        new Banner(null, "banner", "banner2.png", true)
+      );
+
+    for (Banner banner : bannerList) {
+        entityManager.persist(banner);
+    }
+
+    logger.info("Seeding banner data completed");
+     }
+
     }
 
     private boolean isUserTableEmpty() {
@@ -159,6 +174,12 @@ public class DatabaseSeeders implements CommandLineRunner {
         Long count = (Long) entityManager.createQuery("SELECT COUNT(p.id) FROM Products p").getSingleResult();
         return count == 0;
     }
+
+   private boolean isBannerTableEmpty() {
+    Long count = (Long) entityManager.createQuery("SELECT COUNT(b) FROM Banner b").getSingleResult();
+    return count == 0;
+}
+
 
     private boolean isGalleryTableEmpty() {
         Long count = (Long) entityManager.createQuery("SELECT COUNT(g.id) FROM Gallery g").getSingleResult();

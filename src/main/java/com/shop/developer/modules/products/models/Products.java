@@ -54,7 +54,7 @@ public class Products {
     public void setImage(String image) {
         this.image = image;
     }
-    public String Description() {
+    public String getDescription() {
         return description;
     }
     public void setDescription(String description) {
