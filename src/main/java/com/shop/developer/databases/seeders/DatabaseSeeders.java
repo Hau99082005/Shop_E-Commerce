@@ -129,13 +129,13 @@ public class DatabaseSeeders implements CommandLineRunner {
         //seed gallery
         if(isGalleryTableEmpty()) {
             List<Gallery> galleryList = Arrays.asList(
-                new Gallery(null, "vn-11134207-7ras8-m1pdq91ripg325.webp", 2),
-                new Gallery(null, "vn-11134207-7ras8-m1pdq91rfwlbc4.webp", 2),
-                new Gallery(null, "vn-11134207-7ras8-m3ahsqeyb9y9d5.webp", 2),
-                new Gallery(null, "vn-11134207-7ras8-m1pdq91r8vgzc0.webp", 2),
-                new Gallery(null, "vn-11134207-7ras8-m1pdq92v8nkja3.webp", 2),
-                new Gallery(null, "vn-11134207-7ras8-m1pdq91rd36bf4.webp", 2),
-                new Gallery(null, "vn-11134207-7r98o-lybna3p25oi53b.webp", 2)
+                new Gallery(null, "vn-11134207-7ras8-m1pdq91ripg325.webp", 2, true),
+                new Gallery(null, "vn-11134207-7ras8-m1pdq91rfwlbc4.webp", 2, true),
+                new Gallery(null, "vn-11134207-7ras8-m3ahsqeyb9y9d5.webp", 2, true),
+                new Gallery(null, "vn-11134207-7ras8-m1pdq91r8vgzc0.webp", 2, true),
+                new Gallery(null, "vn-11134207-7ras8-m1pdq92v8nkja3.webp", 2, true),
+                new Gallery(null, "vn-11134207-7ras8-m1pdq91rd36bf4.webp", 2, true),
+                new Gallery(null, "vn-11134207-7r98o-lybna3p25oi53b.webp", 2, true)
             );
 
             for(Gallery g: galleryList) {

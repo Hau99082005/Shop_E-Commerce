@@ -1,5 +1,8 @@
 package com.shop.developer.controllers;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,13 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.shop.developer.modules.banner.models.Banner;
 import com.shop.developer.modules.banner.repositories.BannerRespository;
+import com.shop.developer.modules.categories.Impl.CategoriesService;
 import com.shop.developer.modules.categories.models.Categories;
-import com.shop.developer.modules.categories.services.CategoriesService;
+import com.shop.developer.modules.products.Impl.ProductsService;
 import com.shop.developer.modules.products.models.Products;
-import com.shop.developer.modules.products.services.ProductsService;
-
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class HomeController {

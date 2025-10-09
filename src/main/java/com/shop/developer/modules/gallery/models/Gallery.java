@@ -16,14 +16,16 @@ public class Gallery {
     private Long id;
     private String image_url;
     private Integer product_id ;
+    private Boolean status;
 
     public Gallery() {
         super();
     }
-    public Gallery(Long id, String image_url, Integer product_id) {
+    public Gallery(Long id, String image_url, Integer product_id, Boolean status) {
         super();
         this.id = id;
         this.image_url = image_url;
         this.product_id = product_id;
+        this.status = status;
     }
 }

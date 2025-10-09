@@ -1,4 +1,4 @@
-package com.shop.developer.modules.categories.services;
+package com.shop.developer.modules.categories.Impl;
 
 import java.util.List;
 import java.util.Optional;

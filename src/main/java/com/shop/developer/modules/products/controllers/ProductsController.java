@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shop.developer.modules.products.Impl.ProductsService;
 import com.shop.developer.modules.products.models.Products;
-import com.shop.developer.modules.products.services.ProductsService;
 
 
 @RestController
