@@ -1,12 +1,19 @@
 package com.shop.developer.modules.categories.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.shop.developer.modules.categories.models.Categories;
-import com.shop.developer.modules.categories.repositories.CategoriesRepository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.shop.developer.modules.categories.models.Categories;
+import com.shop.developer.modules.categories.repositories.CategoriesRepository;
+@RestController
+@RequestMapping("/categories")
+@CrossOrigin(origins = "*") // Cho phép gọi từ frontend hoặc Postman
 @Service
 public class CategoriesService {
     

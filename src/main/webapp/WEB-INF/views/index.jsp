@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -90,38 +91,60 @@
 <!-- Main Content -->
 <!-- Hero Section with Banner Carousel -->
 <section class="p-0">
-    <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" style="background: transparent;">
         <c:if test="${not empty banners}">
             <div class="carousel-indicators">
                 <c:forEach var="banner" items="${banners}" varStatus="status">
-                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="${status.index}" 
-                            class="${status.index == 0 ? 'active' : ''}" aria-current="${status.index == 0 ? 'true' : 'false'}" 
+                    <button type="button"
+                            data-bs-target="#bannerCarousel"
+                            data-bs-slide-to="${status.index}"
+                            class="${status.index == 0 ? 'active' : ''}"
+                            aria-current="${status.index == 0 ? 'true' : 'false'}"
                             aria-label="Slide ${status.index + 1}"></button>
                 </c:forEach>
             </div>
         </c:if>
+
         <div class="carousel-inner">
             <c:choose>
                 <c:when test="${not empty banners}">
                     <c:forEach var="banner" items="${banners}" varStatus="status">
+                        <c:choose>
+                            <c:when test="${fn:startsWith(banner.image, 'http')}">
+                                <c:set var="bannerSrc" value="${banner.image}" />
+                            </c:when>
+                            <c:when test="${fn:startsWith(banner.image, '/')}">
+                                <c:set var="bannerSrc" value="${pageContext.request.contextPath}${banner.image}" />
+                            </c:when>
+                            <c:otherwise>
+                                <!-- Chọn 1 trong 2 dòng dưới đây tùy cách bạn lưu file -->
+                                <!-- Nếu bạn phục vụ ảnh từ uploads/banners (khuyến nghị) -->
+                                <c:set var="bannerSrc" value="${pageContext.request.contextPath}/uploads/banners/${banner.image}" />
+                                <%-- Nếu dùng assets/img: 
+                                <c:set var="bannerSrc" value="${pageContext.request.contextPath}/assets/img/${banner.image}" />
+                                --%>
+                            </c:otherwise>
+                        </c:choose>
+
                         <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
-                            <!-- Fix path: use existing assets/img/ and safe fallback hero4.png -->
-                            <img src="${pageContext.request.contextPath}/assets/img/${banner.image}" 
-                                 class="d-block w-100" alt="${banner.title}" 
+                            <img src="${bannerSrc}"
+                                 class="d-block w-100" alt="${banner.title}"
                                  onerror="this.src='${pageContext.request.contextPath}/assets/img/hero4.png'"
-                                 style="height: 300px; object-fit: cover;">
+                                 style="height: 300px; object-fit: cover; background: transparent;">
                         </div>
                     </c:forEach>
                 </c:when>
+
                 <c:otherwise>
                     <div class="carousel-item active">
-                        <!-- Default banner uses existing hero4.png -->
-                        <img src="${pageContext.request.contextPath}/assets/img/hero4.png" 
-                             class="d-block w-100" alt="Default Banner" style="height: 300px; object-fit: cover;">
+                        <img src="${pageContext.request.contextPath}/assets/img/hero4.png"
+                             class="d-block w-100" alt="Default Banner"
+                             style="height: 300px; object-fit: cover; background: transparent;">
                     </div>
                 </c:otherwise>
             </c:choose>
         </div>
+
         <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
