@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ - Shopee Clone</title>
+    <title>Trang chủ - Cara</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -97,16 +97,16 @@
                 <c:when test="${not empty banners}">
                     <c:forEach var="banner" items="${banners}" varStatus="status">
                         <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
-                            <img src="${pageContext.request.contextPath}/images/${banner.image}" 
+                            <img src="${pageContext.request.contextPath}/assets/img/banners/${banner.image}" 
                                  class="d-block w-100" alt="${banner.title}" 
-                                 onerror="this.src='https://via.placeholder.com/1200x300/ff6b6b/ffffff?text=Banner+Image'"
+                                 onerror="this.src='${pageContext.request.contextPath}/assets/img/banner.jpg'"
                                  style="height: 300px; object-fit: cover;">
                         </div>
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
                     <div class="carousel-item active">
-                        <img src="https://via.placeholder.com/1200x300/ff6b6b/ffffff?text=Banner+Image" 
+                        <img src="${pageContext.request.contextPath}/assets/img/banner.jpg" 
                              class="d-block w-100" alt="Default Banner" style="height: 300px; object-fit: cover;">
                     </div>
                 </c:otherwise>
@@ -177,15 +177,15 @@
                                     <c:choose>
                                         <c:when test="${product.price_old != null && product.price_old > product.price}">
                                             <span class="text-muted text-decoration-line-through me-2" style="font-size: 0.9rem;">
-                                                <fmt:formatNumber value="${product.price_old}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                                <fmt:formatNumber value="${product.price_old * 1000}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                                             </span>
                                             <span class="text-danger fw-bold">
-                                                <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                                <fmt:formatNumber value="${product.price * 1000}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                                             </span>
                                         </c:when>
                                         <c:otherwise>
                                             <span class="text-danger fw-bold">
-                                                <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                                <fmt:formatNumber value="${product.price * 1000}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                                             </span>
                                         </c:otherwise>
                                     </c:choose>
@@ -241,15 +241,15 @@
                                     <c:choose>
                                         <c:when test="${product.price_old != null && product.price_old > product.price}">
                                             <span class="text-muted text-decoration-line-through me-2" style="font-size: 0.9rem;">
-                                                <fmt:formatNumber value="${product.price_old}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                                <fmt:formatNumber value="${product.price_old * 1000}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                                             </span>
                                             <span class="text-danger fw-bold">
-                                                <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                                <fmt:formatNumber value="${product.price * 1000}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                                             </span>
                                         </c:when>
                                         <c:otherwise>
                                             <span class="text-danger fw-bold">
-                                                <fmt:formatNumber value="${product.price}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
+                                                <fmt:formatNumber value="${product.price * 1000}" type="currency" currencySymbol="₫" maxFractionDigits="0"/>
                                             </span>
                                         </c:otherwise>
                                     </c:choose>

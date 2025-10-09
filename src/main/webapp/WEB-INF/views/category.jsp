@@ -59,11 +59,11 @@
                                     <div class="mb-2">
                                         <c:if test="${not empty product.price_old && product.price_old > product.price}">
                                             <small class="price-old">
-                                                <fmt:formatNumber value="${product.price_old * 1000}" type="currency" currencyCode="VND" />
+                                                <fmt:formatNumber value="${product.price_old}" type="currency" currencyCode="VND" />
                                             </small>
                                         </c:if>
                                         <div class="price-new">
-                                            <fmt:formatNumber value="${product.price * 1000}" type="currency" currencyCode="VND" />
+                                            <fmt:formatNumber value="${product.price}" type="currency" currencyCode="VND" />
                                         </div>
                                     </div>
                                     

@@ -50,7 +50,7 @@
                             <c:if test="${not empty product.price_old && product.price_old > product.price}">
                                 <div class="d-flex align-items-center mb-2">
                                     <span class="price-old me-3">
-                                        <fmt:formatNumber value="${product.price_old * 1000}" type="currency" currencyCode="VND" />
+                                        <fmt:formatNumber value="${product.price_old}" type="currency" currencyCode="VND" />
                                     </span>
                                     <span class="badge bg-danger">
                                         <fmt:formatNumber value="${((product.price_old - product.price) / product.price_old) * 100}" 
@@ -59,7 +59,7 @@
                                 </div>
                             </c:if>
                             <h3 class="price-new mb-0">
-                                <fmt:formatNumber value="${product.price * 1000}" type="currency" currencyCode="VND" />
+                                <fmt:formatNumber value="${product.price}" type="currency" currencyCode="VND" />
                             </h3>
                         </div>
                         
