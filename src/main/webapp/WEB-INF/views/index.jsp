@@ -74,6 +74,12 @@
             border-radius: 4px;
             font-weight: bold;
         }
+
+        /* Fix: remove red background in carousel area */
+        #bannerCarousel, 
+        #bannerCarousel .carousel-item { 
+            background: transparent !important; 
+        }
     </style>
 </head>
 <body>
@@ -85,28 +91,32 @@
 <!-- Hero Section with Banner Carousel -->
 <section class="p-0">
     <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <c:forEach var="banner" items="${banners}" varStatus="status">
-                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="${status.index}" 
-                        class="${status.index == 0 ? 'active' : ''}" aria-current="${status.index == 0 ? 'true' : 'false'}" 
-                        aria-label="Slide ${status.index + 1}"></button>
-            </c:forEach>
-        </div>
+        <c:if test="${not empty banners}">
+            <div class="carousel-indicators">
+                <c:forEach var="banner" items="${banners}" varStatus="status">
+                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="${status.index}" 
+                            class="${status.index == 0 ? 'active' : ''}" aria-current="${status.index == 0 ? 'true' : 'false'}" 
+                            aria-label="Slide ${status.index + 1}"></button>
+                </c:forEach>
+            </div>
+        </c:if>
         <div class="carousel-inner">
             <c:choose>
                 <c:when test="${not empty banners}">
                     <c:forEach var="banner" items="${banners}" varStatus="status">
                         <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
-                            <img src="${pageContext.request.contextPath}/assets/img/banners/${banner.image}" 
+                            <!-- Fix path: use existing assets/img/ and safe fallback hero4.png -->
+                            <img src="${pageContext.request.contextPath}/assets/img/${banner.image}" 
                                  class="d-block w-100" alt="${banner.title}" 
-                                 onerror="this.src='${pageContext.request.contextPath}/assets/img/banner.jpg'"
+                                 onerror="this.src='${pageContext.request.contextPath}/assets/img/hero4.png'"
                                  style="height: 300px; object-fit: cover;">
                         </div>
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
                     <div class="carousel-item active">
-                        <img src="${pageContext.request.contextPath}/assets/img/banner.jpg" 
+                        <!-- Default banner uses existing hero4.png -->
+                        <img src="${pageContext.request.contextPath}/assets/img/hero4.png" 
                              class="d-block w-100" alt="Default Banner" style="height: 300px; object-fit: cover;">
                     </div>
                 </c:otherwise>
@@ -352,11 +362,10 @@
 
 <!-- Custom Scripts -->
 <script>
-    // Add to cart functionality
+    // Add to cart functionality (placeholder)
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', function() {
             const productId = this.getAttribute('data-product-id');
-            // Add to cart logic here
             alert('Đã thêm sản phẩm vào giỏ hàng!');
         });
     });

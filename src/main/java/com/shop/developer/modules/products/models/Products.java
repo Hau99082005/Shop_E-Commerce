@@ -9,7 +9,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name="products")
 public class Products {
@@ -35,74 +37,7 @@ public class Products {
     protected void onCreate() { //phương thức này sẽ được gọi trước khi thực hiện thao tác lưu (persist) đối tượng vào database.
         createdAt = LocalDateTime.now();
     }
-    
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getImage() {
-        return image;
-    }
-    public void setImage(String image) {
-        this.image = image;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public Double getPrice() {
-        return price;
-    }
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-    public Double getPrice_old() {
-        return price_old;
-    }
-    public void setPrice_old(Double price_old) {
-        this.price_old = price_old;
-    }
-    public Integer getQuantity() {
-        return quantity;
-    }
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-    public Integer getView() {
-        return view;
-    }
-    public void setView(Integer view) {
-        this.view = view;
-    }
-    public Integer getCategory_id() {
-        return category_id;
-    }
-    public void setCategory_id(Integer category_id) {
-        this.category_id = category_id;
-    }
-    public Boolean getStatus() {
-        return status;
-    }
-    public void setStatus(Boolean status) {
-        this.status = status;
-    }
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-    
+
     public Products() {
         super();
     }
