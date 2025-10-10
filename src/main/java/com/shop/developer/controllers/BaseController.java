@@ -62,9 +62,12 @@ public class BaseController {
         List<Categories> categories = categoriesService.getActiveCategories();
         model.addAttribute("categories", categories);
 
-        // Lấy danh sách sản phẩm đang hoạt động (giới hạn 8 sản phẩm đầu tiên)
+        // Lấy danh sách sản phẩm: ưu tiên active, nếu rỗng thì lấy tất cả để đảm bảo hiển thị
         List<Products> products = productsService.getActiveProducts();
-        if (products.size() > 8) {
+        if (products == null || products.isEmpty()) {
+            products = productsService.getAllProducts();
+        }
+        if (products != null && products.size() > 8) {
             products = products.subList(0, 8);
         }
         model.addAttribute("products", products);
