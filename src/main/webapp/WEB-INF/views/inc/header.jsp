@@ -6,46 +6,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cara - Thời trang & Phụ kiện</title>
-
-  <!-- Favicons (optional) -->
   <link rel="icon" href="${pageContext.request.contextPath}/assets/images/favicon.ico">
 
-  <!-- Bootstrap + FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" crossorigin="anonymous"/>
 
-  <!-- Main CSS -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
 </head>
 <style>
-/* ===== Header light blue theme (Shopee style) ===== */
 .shp-topbar {
-  /* Shopee-like light blue top bar */
-  background: #55C5EA;           /* fallback */
+  background: #55C5EA;          
   background: linear-gradient(180deg, #55C5EA 0%, #45b5da 100%);
   color: #ffffff;
 }
 .shp-topbar a { color: #ffffff !important; }
 
 .shp-header {
-  /* Shopee-like light blue header */
+
   background: #45b5da;
   background: linear-gradient(180deg, #45b5da 0%, #35a5ca 100%);
   color: #ffffff;
   border-bottom: 1px solid #35a5ca;
   position: relative;
-  z-index: 1100; /* above carousel and content */
+  z-index: 1100; 
 }
 
-/* Icons and links in header */
 .shp-header .shp-icon { color: #ffffff; }
 .shp-quickcats a { color: #ffffff !important; opacity: .95; }
 .shp-quickcats a:hover { opacity: 1; text-decoration: underline; }
 
-/* Fix dropdown overlap */
 .shp-header .dropdown-menu { z-index: 2000; }
 
-/* Search input + button */
 .shp-search-input {
   background: #ffffff;
   border: 1px solid #35a5ca !important;
@@ -57,18 +48,16 @@
   box-shadow: 0 0 0 0.2rem rgba(85,197,234,.15) !important;
 }
 .shp-search-btn {
-  background: #55C5EA !important;    /* light blue button */
+  background: #55C5EA !important;   
   color: #ffffff !important;
   border: 1px solid #55C5EA !important;
 }
 .shp-search-btn:hover { background: #45b5da !important; border-color:#45b5da !important; }
 
-/* Category round pill border a bit lighter in light blue theme */
 .cat-pill { border-color: #55C5EA; }
 </style>
 <body class="bg-light">
 
-<!-- Shopee-like utility top bar -->
 <div class="shp-topbar text-white small">
   <div class="container d-flex justify-content-between align-items-center py-1">
     <div class="d-flex flex-wrap gap-3">
@@ -87,7 +76,6 @@
   </div>
 </div>
 
-<!-- Shopee-like main header (logo + search + cart) -->
 <header class="shp-header">
   <div class="container py-3">
     <div class="row g-3 align-items-center">
@@ -160,7 +148,6 @@
   </div>
 </header>
 
-<!-- Minimal sticky spacer to avoid content underlap -->
 <div style="height:8px;background:#f5f5f5;"></div>
 
 <!-- Scripts -->

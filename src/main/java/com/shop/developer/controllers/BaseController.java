@@ -193,7 +193,6 @@ public class BaseController {
             model.addAttribute("error", "Email đã tồn tại");
             return "register";
         }
-        // Create user
         User user = new User();
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
@@ -201,8 +200,6 @@ public class BaseController {
         user.setPhone(phone);
         user.setName(name);
         userRepository.save(user);
-
-        // Auto login -> set session and go home
         httpSession.setAttribute("user", user);
         return "redirect:/";
     }

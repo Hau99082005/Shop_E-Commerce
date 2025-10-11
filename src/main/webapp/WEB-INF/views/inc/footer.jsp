@@ -45,7 +45,7 @@
                     <img src="${pageContext.request.contextPath}/assets/img/pay/play.jpg" alt="Google Play" class="img-fluid" style="height:40px; border-radius:5px;">
                 </div>
                 <p class="mb-2">Thanh toán an toàn</p>
-                <img src="${pageContext.request.contextPath}/assets/images/vn-11134207-7ras8-m0jwupvcq1sff0.webp" alt="Payment Methods" class="img-fluid" style="height:30px;">
+                <img src="${pageContext.request.contextPath}/assets/img/pay/pay.png" alt="Payment Methods" class="img-fluid" style="height:30px;">
             </div>
         </div>
         <div class="row mt-4 pt-3 border-top">
@@ -56,15 +56,12 @@
     </div>
 </footer>
 
-<!-- JavaScript cuối trang -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script>
-  // Ensure dropdowns work even if some scripts fail earlier
   document.addEventListener('DOMContentLoaded', function () {
     try {
       if (window.bootstrap) {
         document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function (el) {
-          // prevent default navigation on anchors
           el.addEventListener('click', function (e) { e.preventDefault(); });
           new bootstrap.Dropdown(el);
         });
