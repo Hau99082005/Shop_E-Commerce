@@ -17,7 +17,7 @@ import com.shop.developer.modules.categories.Impl.CategoriesService;
 import com.shop.developer.modules.categories.models.Categories;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/categories")
 @CrossOrigin(origins = "*") // Cho phép gọi từ frontend hoặc Postman
 public class CategoriesController {
 

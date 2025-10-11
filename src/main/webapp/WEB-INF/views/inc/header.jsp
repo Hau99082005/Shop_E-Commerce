@@ -40,6 +40,9 @@
 .shp-quickcats a { color: #ffffff !important; opacity: .95; }
 .shp-quickcats a:hover { opacity: 1; text-decoration: underline; }
 
+/* Fix dropdown overlap */
+.shp-header .dropdown-menu { z-index: 2000; }
+
 /* Search input + button */
 .shp-search-input {
   background: #ffffff;
@@ -99,6 +102,11 @@
           <input type="text" name="search" class="form-control shp-search-input" placeholder="Tìm sản phẩm, thương hiệu và hơn thế nữa...">
           <button class="btn btn-light shp-search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
         </form>
+        <div class="mt-2">
+          <a class="btn btn-info btn-sm text-white fw-semibold" href="${pageContext.request.contextPath}/categories">
+            <i class="fa-solid fa-bars"></i> Tất cả danh mục
+          </a>
+        </div>
         <!-- popular keywords -->
         <div class="d-none d-md-flex gap-3 small mt-2 flex-wrap">
           <c:choose>
@@ -123,7 +131,7 @@
         <c:choose>
           <c:when test="${sessionScope.user != null}">
             <div class="dropdown">
-              <a class="text-white shp-icon d-flex align-items-center gap-1 text-decoration-none" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <a id="userMenuToggle" class="text-white shp-icon d-flex align-items-center gap-1 text-decoration-none" href="javascript:void(0)" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-user"></i>
                 <i class="fa-solid fa-caret-down small"></i>
               </a>
@@ -140,7 +148,7 @@
             </div>
           </c:when>
           <c:otherwise>
-            <a class="text-white shp-icon" href="#" title="Đăng nhập">
+            <a class="text-white shp-icon" href="${pageContext.request.contextPath}/login" title="Đăng nhập">
               <i class="fa-solid fa-user"></i>
             </a>
           </c:otherwise>

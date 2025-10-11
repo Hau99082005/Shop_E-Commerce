@@ -1,112 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="inc/header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cara</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./assets/css/style.css">
-</head>
+<style>
+  .auth-bg { background: url('${pageContext.request.contextPath}/assets/img/blog/b1.jpg') center/cover no-repeat fixed; }
+  .glass { background: rgba(255,255,255,.85); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.35); }
+</style>
 
-<body>
-    <header id="header">
-        <a href="#"><img src="./assets/img/logo.png" class="logo" alt=""></a>
-        <ul id="navbar">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="shop.html">Shop</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
-            <li><a class="active" href="user.html"><i class="fa-solid fa-user"></i></a></li>
-        </ul>
-    </header>
-    <section id="wrapper">
-        <div class="form-box register">
-            <form action="">
-                <h1>Registration</h1>
-                <div class="input-box">
-                    <input type="text" placeholder="Username" required>
-                    <i class="fa-solid fa-user"></i>
-                </div>
-                <div class="input-box">
-                    <input type="email" placeholder="Email" required>
-                    <i class="fa-solid fa-envelope"></i>
-                </div>
-                <div class="input-box">
-                    <input type="password" placeholder="Password" required>
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <div class="remember-forgot">
-                    <label><input type="checkbox">I agree to the terms & conditions</label>
-                    <!-- <a href="#">Forgot Password</a> -->
-                </div>
-                <button type="submit" class="normal">Register</button>
-                <div class="register-link">
-                    <p>Already have an Account? <a href="user.html">Login</a></p>
-                </div>
-            </form>
+<div class="auth-bg py-5">
+  <div class="container d-flex justify-content-center align-items-center" style="min-height:70vh;">
+    <div class="glass rounded-4 shadow p-4" style="max-width:380px;width:100%;">
+      <h4 class="text-center fw-bold mb-3">Registration</h4>
+      <c:if test="${not empty error}">
+        <div class="alert alert-danger py-2 small" role="alert">${error}</div>
+      </c:if>
+      <form action="${pageContext.request.contextPath}/register" method="post" class="needs-validation" novalidate>
+        <div class="mb-2">
+          <label class="form-label small">Họ tên</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+            <input type="text" name="name" class="form-control" placeholder="VD: Nguyễn Văn A">
+          </div>
         </div>
-    </section>
-    <section id="newsletter" class="section-p1 section-m1">
-        <div class="newstext">
-            <h4>Sign Up For Newsletters</h4>
-            <p>Get E-mail updates about our latest shop and <span>special offers</span></p>
+        <div class="mb-2">
+          <label class="form-label small">Số điện thoại</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa-solid fa-phone"></i></span>
+            <input type="text" name="phone" class="form-control" required>
+          </div>
         </div>
-        <div class="form">
-            <input type="text" placeholder="Your email address">
-            <button class="normal">Sign up</button>
+        <div class="mb-2">
+          <label class="form-label small">Email</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+            <input type="email" name="email" class="form-control" required>
+          </div>
         </div>
-    </section>
+        <div class="mb-2">
+          <label class="form-label small">Password</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+            <input type="password" name="password" class="form-control" required>
+          </div>
+        </div>
+        <div class="mb-2">
+          <label class="form-label small">Repeat Password</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+            <input type="password" name="confirm" class="form-control" required>
+          </div>
+        </div>
+        <div class="mb-2">
+          <label class="form-label small">Role</label>
+          <select name="role" class="form-select">
+            <option value="user">user</option>
+            <option value="admin">admin</option>
+          </select>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" value="1" id="agree" required>
+          <label class="form-check-label small" for="agree">I agree to all statements in Terms of Service</label>
+        </div>
+        <button type="submit" class="btn btn-dark w-100">Register</button>
+        <div class="text-center small mt-2">Already have an Account? <a href="${pageContext.request.contextPath}/login">Login</a></div>
+      </form>
+    </div>
+  </div>
+</div>
 
-    <footer class="section-p1">
-        <div class="col">
-            <img class="logo" src="./assets/img/logo.png" alt="">
-            <h4>Contact</h4>
-            <p><strong>Address:</strong> Cao Dang Cong Nghiep - Hueic</p>
-            <p><strong>Phone:</strong> +84000111222</p>
-            <p><strong>Hours:</strong> 8AM - 21PM, Mon - Sat</p>
-            <div class="follow">
-                <h4>Follow us</h4>
-                <div class="icon">
-                    <i class="fa-brands fa-facebook-f"></i>
-                    <i class="fa-brands fa-twitter"></i>
-                    <i class="fa-brands fa-instagram"></i>
-                    <i class="fa-brands fa-pinterest-p"></i>
-                    <i class="fa-brands fa-youtube"></i>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <h4>About</h4>
-            <a href="#">About us</a>
-            <a href="#">Delivery Information</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & Conditions</a>
-            <a href="#">Contact Us</a>
-        </div>
-        <div class="col">
-            <h4>My Account</h4>
-            <a href="#">Sign In</a>
-            <a href="#">View Cart</a>
-            <a href="#">My Wishlist</a>
-            <a href="#">Track My Oder</a>
-            <a href="#">Help</a>
-        </div>
-        <div class="col install">
-            <h4>Install App</h4>
-            <p>From App Store or Google Play</p>
-            <div class="row">
-                <img src="./assets/img/pay/app.jpg" alt="">
-                <img src="./assets/img/pay/play.jpg" alt="">
-            </div>
-            <p>Secured Payment Gateaways</p>
-            <img src="./assets/img/pay/pay.png" alt="">
-        </div>
-    </footer>
-</body>
+<%@ include file="inc/footer.jsp" %>

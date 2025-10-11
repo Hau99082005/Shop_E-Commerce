@@ -8,10 +8,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.shop.developer.modules.banner.models.Banner;
@@ -20,6 +22,10 @@ import com.shop.developer.modules.categories.Impl.CategoriesService;
 import com.shop.developer.modules.categories.models.Categories;
 import com.shop.developer.modules.products.Impl.ProductsService;
 import com.shop.developer.modules.products.models.Products;
+import com.shop.developer.modules.users.models.User;
+import com.shop.developer.modules.users.repositories.UserRepository;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class BaseController {
@@ -32,6 +38,15 @@ public class BaseController {
 
     @Autowired
     private BannerRespository bannerRespository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private HttpSession httpSession;
 
     // ✅ Các hàm dùng chung cho các controller khác (vẫn giữ lại)
     protected ResponseEntity<Map<String, Object>> successResponse(Object data) {
@@ -137,5 +152,84 @@ public class BaseController {
         model.addAttribute("categories", categories);
 
         return "products";
+    }
+
+    @GetMapping("/categories")
+    public String allCategories(Model model) {
+        List<Categories> categories = categoriesService.getActiveCategories();
+        model.addAttribute("categories", categories);
+        return "categories"; // Renders WEB-INF/views/categories.jsp
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        List<Categories> categories = categoriesService.getActiveCategories();
+        model.addAttribute("categories", categories);
+        return "login"; // Renders WEB-INF/views/login.jsp
+    }
+
+    @GetMapping("/register")
+    public String register(Model model) {
+        List<Categories> categories = categoriesService.getActiveCategories();
+        model.addAttribute("categories", categories);
+        return "register"; // Renders WEB-INF/views/register.jsp
+    }
+
+    @PostMapping("/register")
+    public String handleRegister(
+        @RequestParam String email,
+        @RequestParam String password,
+        @RequestParam String confirm,
+        @RequestParam(required = false, defaultValue = "user") String role,
+        @RequestParam String phone,
+        @RequestParam(required = false) String name,
+        Model model
+    ) {
+        if (!password.equals(confirm)) {
+            model.addAttribute("error", "Mật khẩu nhập lại không khớp");
+            return "register";
+        }
+        if (userRepository.findByEmail(email).isPresent()) {
+            model.addAttribute("error", "Email đã tồn tại");
+            return "register";
+        }
+        // Create user
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole(role);
+        user.setPhone(phone);
+        user.setName(name);
+        userRepository.save(user);
+
+        // Auto login -> set session and go home
+        httpSession.setAttribute("user", user);
+        return "redirect:/";
+    }
+
+    @PostMapping("/login")
+    public String handleLogin(
+        @RequestParam String email,
+        @RequestParam String password,
+        Model model
+    ) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isEmpty()) {
+            model.addAttribute("error", "Tài khoản không tồn tại");
+            return "login";
+        }
+        User user = userOpt.get();
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            model.addAttribute("error", "Mật khẩu không đúng");
+            return "login";
+        }
+        httpSession.setAttribute("user", user);
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String handleLogout() {
+        httpSession.invalidate();
+        return "redirect:/login";
     }
 }
