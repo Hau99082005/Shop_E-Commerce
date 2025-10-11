@@ -58,6 +58,20 @@
 
 <!-- JavaScript cuối trang -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+  // Ensure dropdowns work even if some scripts fail earlier
+  document.addEventListener('DOMContentLoaded', function () {
+    try {
+      if (window.bootstrap) {
+        document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach(function (el) {
+          // prevent default navigation on anchors
+          el.addEventListener('click', function (e) { e.preventDefault(); });
+          new bootstrap.Dropdown(el);
+        });
+      }
+    } catch (e) { console.warn('Dropdown init error:', e); }
+  });
+</script>
 <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
 <script>
     // JavaScript để cải thiện trải nghiệm người dùng

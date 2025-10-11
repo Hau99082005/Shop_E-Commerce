@@ -33,6 +33,8 @@
   background: linear-gradient(180deg, #45b5da 0%, #35a5ca 100%);
   color: #ffffff;
   border-bottom: 1px solid #35a5ca;
+  position: relative;
+  z-index: 1100; /* above carousel and content */
 }
 
 /* Icons and links in header */
