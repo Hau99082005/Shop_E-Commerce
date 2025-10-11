@@ -1,9 +1,9 @@
 package com.shop.developer.helpers;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-import java.nio.charset.StandardCharsets;
 
 import javax.crypto.spec.SecretKeySpec;
 
@@ -13,10 +13,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.shop.developer.config.JwtConfig;
 import com.shop.developer.modules.users.services.impl.CustomDetailUserService;
 import com.shop.developer.services.JWTService;
 

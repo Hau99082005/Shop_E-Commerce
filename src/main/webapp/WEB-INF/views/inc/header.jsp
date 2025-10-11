@@ -101,10 +101,15 @@
         </form>
         <!-- popular keywords -->
         <div class="d-none d-md-flex gap-3 small mt-2 flex-wrap">
-          <a class="text-white-50 text-decoration-none" href="${pageContext.request.contextPath}/products?search=Áo thun">Áo thun</a>
-          <a class="text-white-50 text-decoration-none" href="${pageContext.request.contextPath}/products?search=Giày">Giày</a>
-          <a class="text-white-50 text-decoration-none" href="${pageContext.request.contextPath}/products?search=Máy tính">Máy tính</a>
-          <a class="text-white-50 text-decoration-none" href="${pageContext.request.contextPath}/products?search=Túi xách">Túi xách</a>
+          <c:choose>
+            <c:when test="${not empty categories}">
+              <c:forEach var="cat" items="${categories}" varStatus="st">
+                <c:if test="${st.index < 6}">
+                  <a class="text-white-50 text-decoration-none" href="${pageContext.request.contextPath}/products?search=${cat.name}">${cat.name}</a>
+                </c:if>
+              </c:forEach>
+            </c:when>
+          </c:choose>
         </div>
       </div>
 

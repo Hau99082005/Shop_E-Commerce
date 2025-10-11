@@ -43,7 +43,7 @@
                              onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/img/banner/b1.jpg'">
                       </c:when>
                       <c:otherwise>
-                        <img src="${pageContext.request.contextPath}/assets/images/${b.image}"
+                        <img src="${pageContext.request.contextPath}/assets/img/banner/${b.image}"
                              alt="${b.title}" class="w-100 h-100" style="object-fit:cover"
                              onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/img/banner/b1.jpg'">
                       </c:otherwise>

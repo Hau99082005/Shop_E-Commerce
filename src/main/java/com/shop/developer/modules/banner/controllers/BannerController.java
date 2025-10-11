@@ -30,6 +30,12 @@ public class BannerController {
         return bannerService.getAllBanners();
     }
 
+    // Lấy banners đang hoạt động
+    @GetMapping("/active")
+    public List<Banner> getActiveBanners() {
+        return bannerService.getActiveBanners();
+    }
+
     // Lấy banners theo ID
     @GetMapping("/{id}")
     public Banner getBannerById(@PathVariable Long id) {
