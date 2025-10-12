@@ -37,36 +37,7 @@ public class DatabaseSeeders implements CommandLineRunner {
     @Transactional
     @Override
     public void run(String... args) throws Exception {
-         ////cách 1:
-        //     entityManager.createNativeQuery("INSERT INTO users(email, password, phone, address, image, role) VALUES(?,?,?,?,?,?)")
-        //     .setParameter(1, "hau99082005@gmail.com")
-        //     .setParameter(2, passwordEncode)
-        //     .setParameter(3, "0367722389")
-        //     .setParameter(4, "Thôn Thống Nhất - Xã Hải Bình - Tỉnh Quảng Trị")
-        //     .setParameter(5, "")
-        //     .setParameter(6, "admin")
-        //     .executeUpdate();
-
-        //  System.out.println("password:...."+passwordEncode); 
-         
-        ////cách 2:
-        // User user = new User();
-        // user.setEmail("hau99082005@gmail.com");
-        // user.setPassword(passwordEncode);
-        // user.setPhone("0367722389");
-        // user.setAddress("Thôn Thống Nhất - Xã Hải Bình - Tỉnh Quảng Trị");
-        // user.setImage("");
-        // user.setRole("admin");
-        // entityManager.persist(user);
-        ////cách 3: 
-        // User user = new User();
-        // user.setEmail("hau99082005@gmail.com");
-        // user.setPassword(passwordEncode);
-        // user.setPhone("0367722389");
-        // user.setAddress("Thôn Thống Nhất - Xã Hải Bình - Tỉnh Quảng Trị");
-        // user.setImage("");
-        // user.setRole("admin");
-        // userRepository.save(user); //phuowng thức save() này dùng để truyền vào 1 đối tượng entity(có thể là model) để lưu vào database
+         //phuowng thức save() này dùng để truyền vào 1 đối tượng entity(có thể là model) để lưu vào database
 
         // Seed user
         if (isUserTableEmpty()) {
