@@ -140,7 +140,7 @@ public class BaseController {
             products = productsService.getActiveProducts();
             products = products.stream()
                 .filter(p -> p.getName().toLowerCase().contains(search.toLowerCase()))
-                .toList();
+                .collect(java.util.stream.Collectors.toList());
             model.addAttribute("search", search);
         } else {
             products = productsService.getActiveProducts();
@@ -228,5 +228,44 @@ public class BaseController {
     public String handleLogout() {
         httpSession.invalidate();
         return "redirect:/login";
+    }
+
+    @GetMapping("/admin")
+    public String adminDashboard(Model model) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        List<Categories> categories = categoriesService.getActiveCategories();
+        model.addAttribute("categories", categories);
+        return "admin/dashboard/index";
+    }
+
+    @GetMapping("/admin/users")
+    public String adminUsers(Model model) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        List<User> users = userRepository.findAll();
+        List<Categories> categories = categoriesService.getActiveCategories();
+        model.addAttribute("categories", categories);
+        model.addAttribute("users", users);
+        return "admin/users/index";
+    }
+
+    @GetMapping("/admin/users/{id}/delete")
+    public String deleteUser(@PathVariable Long id) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        if (id != null) {
+            userRepository.deleteById(id);
+        }
+        return "redirect:/admin/users";
     }
 }

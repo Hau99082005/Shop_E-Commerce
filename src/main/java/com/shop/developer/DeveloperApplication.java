@@ -2,12 +2,17 @@ package com.shop.developer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class DeveloperApplication {
+public class DeveloperApplication extends SpringBootServletInitializer {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(DeveloperApplication.class);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(DeveloperApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(DeveloperApplication.class, args);
+    }
 }

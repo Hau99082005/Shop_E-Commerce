@@ -130,10 +130,10 @@
                 <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
                 <li><a class="dropdown-item" href="#">Đơn hàng của tôi</a></li>
                 <c:if test="${sessionScope.user.role == 'admin'}">
-                  <li><a class="dropdown-item fw-bold text-primary" href="#">Quản trị</a></li>
+                  <li><a class="dropdown-item fw-bold text-primary" href="${pageContext.request.contextPath}/admin/users">Quản trị</a></li>
                 </c:if>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item text-danger" href="#">Đăng xuất</a></li>
+                <li><a class="dropdown-item text-danger" href="${pageContext.request.contextPath}/logout">Đăng xuất</a></li>
               </ul>
             </div>
           </c:when>

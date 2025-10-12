@@ -32,9 +32,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final JWTService jwtService;
-    private final CustomDetailUserService customDetailUserService;
+    private JWTService jwtService;
+    private CustomDetailUserService customDetailUserService;
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthFilter.class);
+
+
 
     @Override
     protected void doFilterInternal(
