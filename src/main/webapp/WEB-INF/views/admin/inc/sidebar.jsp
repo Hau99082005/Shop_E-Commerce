@@ -38,7 +38,7 @@
                                             <a href="${pageContext.request.contextPath}/admin/banners" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-layer-group me-2"></i>Banners</a>
                                             <div class="dropdown-menu bg-transparent border-0">
                                                 <a href="${pageContext.request.contextPath}/admin/banners" class="dropdown-item">All</a>
-                                                <a href="#" class="dropdown-item disabled">Add</a>
+                                               
                                             </div>
                                         </div>
 
@@ -46,7 +46,6 @@
                      <a href="${pageContext.request.contextPath}/admin/products" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-shopping-cart me-2"></i>Products</a>
                      <div class="dropdown-menu bg-transparent border-0">
                           <a href="${pageContext.request.contextPath}/admin/products" class="dropdown-item">All</a>
-                           <a href="#" class="dropdown-item disabled">Add</a>
                       </div>
                       </div>
 

@@ -49,7 +49,7 @@
 </c:when>
                                             <c:otherwise>
                                                 <img src="${pageContext.request.contextPath}/assets/images/${c.thumbnail}" alt="${c.name}" style="height:40px" 
-                                                     onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/images/hero4.png';" />
+                                                     onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/images/placeholder.png';" />
                                             </c:otherwise>
                                         </c:choose>
                                     </c:if>

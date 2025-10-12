@@ -4,8 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<div class="bg-light py-3">
-  <div class="container">
+<div class="bg-light">
+  <div class="container-fluid px-0">
 
     <!-- Banner - Carousel -->
     <div class="mb-3">
@@ -30,12 +30,14 @@
           </c:choose>
         </div>
 
-        <div class="carousel-inner rounded-3 shadow-sm" style="border: 2px solid #55C5EA;">
+        <div class="carousel-inner rounded-3 overflow-hidden" style="height:520px;">
+
           <c:choose>
             <c:when test="${not empty banners}">
               <c:forEach var="b" items="${banners}" varStatus="st">
                 <div class="carousel-item ${st.first ? 'active' : ''}">
-                  <div class="ratio ratio-21x9">
+                  <div class="w-100 h-100">
+
                     <c:choose>
                       <c:when test="${not empty b.image && (fn:startsWith(b.image, 'http://') || fn:startsWith(b.image, 'https://'))}">
                         <img src="${b.image}"
@@ -43,7 +45,7 @@
                              onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/img/banner/b1.jpg'">
                       </c:when>
                       <c:otherwise>
-                        <img src="${pageContext.request.contextPath}/assets/img/banner/${b.image}"
+                        <img src="${pageContext.request.contextPath}/assets/images/${b.image}"
                              alt="${b.title}" class="w-100 h-100" style="object-fit:cover"
                              onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/img/banner/b1.jpg'">
                       </c:otherwise>
@@ -54,12 +56,15 @@
             </c:when>
             <c:otherwise>
               <div class="carousel-item active">
-                <div class="ratio ratio-21x9">
+                <div class="w-100 h-100">
+
                   <img src="${pageContext.request.contextPath}/assets/img/banner/b1.jpg"
                        alt="Banner" class="w-100 h-100" style="object-fit:cover">
                 </div>
               </div>
               <div class="carousel-item">
+                <div class="w-100 h-100">
+
                 <div class="ratio ratio-21x9">
                   <img src="${pageContext.request.contextPath}/assets/img/banner/b2.jpg" 
                        alt="Banner" class="w-100 h-100" style="object-fit:cover">

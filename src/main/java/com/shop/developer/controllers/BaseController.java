@@ -1,5 +1,10 @@
 package com.shop.developer.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,12 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
+import com.shop.developer.modules.banner.Impl.BannerService;
 import com.shop.developer.modules.banner.models.Banner;
 import com.shop.developer.modules.banner.repositories.BannerRespository;
 import com.shop.developer.modules.categories.Impl.CategoriesService;
@@ -44,6 +44,9 @@ public class BaseController {
     private ProductsService productsService;
 
     @Autowired
+    private BannerService bannerService;
+
+    @Autowired
     private BannerRespository bannerRespository;
 
     @Autowired
@@ -55,7 +58,7 @@ public class BaseController {
     @Autowired
     private HttpSession httpSession;
 
-    // ✅ Các hàm dùng chung cho các controller khác (vẫn giữ lại)
+    // Các hàm dùng chung cho các controller khác
     protected ResponseEntity<Map<String, Object>> successResponse(Object data) {
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
@@ -275,6 +278,190 @@ public class BaseController {
         return "admin/categories/index";
     }
 
+
+    @GetMapping("/admin/banners")
+    public String adminBanners(Model model) {
+        Object users = httpSession.getAttribute("user");
+        if(users == null || !(users instanceof com.shop.developer.modules.users.models.User) ||
+        !"admin".equals(((com.shop.developer.modules.users.models.User) users).getRole())) {
+           return "redirect:/login";
+        }
+        List<Banner> banners = bannerService.getAllBanners();
+        model.addAttribute("banners", banners);
+        return "admin/banners/index";
+    }
+
+    @GetMapping("/admin/banners/{id}/edit")
+    public String editBannerForm(@PathVariable Long id, Model model) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        java.util.Optional<Banner> opt = bannerService.getBannerById(id);
+        if (opt.isEmpty()) {
+            return "redirect:/admin/banners";
+        }
+        model.addAttribute("banner", opt.get());
+        return "admin/banners/edit";
+    }
+
+    // ADMIN: PRODUCTS CRUD
+    @GetMapping("/admin/products")
+    public String adminProducts(Model model) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        List<Products> products = productsService.getAllProducts();
+        List<Categories> categories = categoriesService.getAllCategories();
+        model.addAttribute("products", products);
+        model.addAttribute("categories", categories);
+        return "admin/products/index";
+    }
+
+    @GetMapping("/admin/products/create")
+    public String createProductForm(Model model) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        Products product = new Products();
+        product.setStatus(Boolean.TRUE);
+        product.setQuantity(0);
+        model.addAttribute("product", product);
+        model.addAttribute("categories", categoriesService.getAllCategories());
+        return "admin/products/create";
+        java.util.Optional<Banner> opt = bannerService.getBannerById(id);
+        if (opt.isPresent()) {
+            Banner b = opt.get();
+            Boolean cur = b.getStatus();
+            b.setStatus(cur == null ? Boolean.TRUE : !cur);
+            bannerService.saveBanner(b);
+        }
+        return "redirect:/admin/banners";
+    }
+
+    @GetMapping("/admin/banners/{id}/delete")
+    public String deleteBanner(@PathVariable Long id) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        java.util.Optional<Banner> opt = bannerService.getBannerById(id);
+        if (opt.isPresent()) {
+            Banner b = opt.get();
+            try {
+                String img = b.getImage();
+                if (img != null && !img.isBlank()) {
+                    String realUploadRoot = httpSession.getServletContext().getRealPath("/assets/images");
+                    if (realUploadRoot != null) {
+                        java.nio.file.Path p = java.nio.file.Paths.get(realUploadRoot).resolve(img);
+                        java.nio.file.Files.deleteIfExists(p);
+                    }
+                }
+            } catch (Exception ignore) {}
+            bannerService.deleteBanner(id);
+        }
+        return "redirect:/admin/banners";
+    }
+
+    @PostMapping("/admin/banners/{id}/edit")
+    public String updateBanner(
+        @PathVariable Long id,
+        @RequestParam String title,
+        @RequestParam(required = false) Boolean status,
+        @RequestParam(name = "oldImage", required = false) String oldImage,
+        @RequestParam(name = "image", required = false) MultipartFile image
+    ) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        java.util.Optional<Banner> opt = bannerService.getBannerById(id);
+        if (opt.isEmpty()) {
+            return "redirect:/admin/banners";
+        }
+        Banner banner = opt.get();
+        banner.setTitle(title);
+        banner.setStatus(status != null ? status : Boolean.FALSE);
+
+        String imageToSave = oldImage;
+        try {
+            if (image != null && !image.isEmpty()) {
+                String original = image.getOriginalFilename();
+                String safe = (original == null ? "image" : original).replaceAll("[^a-zA-Z0-9_.-]", "_");
+                String filename = System.currentTimeMillis() + "_" + safe;
+                String realUploadRoot = httpSession.getServletContext().getRealPath("/assets/images");
+                Path uploadDir = Paths.get(realUploadRoot);
+                Files.createDirectories(uploadDir);
+                Path target = uploadDir.resolve(filename);
+                Files.copy(image.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+                imageToSave = filename;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        banner.setImage(imageToSave);
+        bannerService.saveBanner(banner);
+        return "redirect:/admin/banners";
+    }
+    //create banner 
+     @GetMapping("/admin/banners/create")
+    public String createBannerForm(Model model) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        Banner banner = new Banner();
+        banner.setStatus(Boolean.TRUE);
+        model.addAttribute("banner", banner);
+        return "admin/banners/create";
+    }
+
+    @PostMapping("/admin/banners/create")
+    public String storeBanner(
+        @RequestParam String name,
+        @RequestParam(required = false) Boolean status,
+        @RequestParam(name = "image") MultipartFile image
+    ) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        if (image == null || image.isEmpty()) {
+            return "redirect:/admin/banner/create";
+        }
+        String filename = null;
+        try {
+            String original = image.getOriginalFilename();
+            String safe = (original == null ? "image" : original).replaceAll("[^a-zA-Z0-9_.-]", "_");
+            filename = System.currentTimeMillis() + "_" + safe;
+            Path uploadDir = Paths.get("src/main/webapp/assets/images");
+            Files.createDirectories(uploadDir);
+            Path target = uploadDir.resolve(filename);
+            Files.copy(image.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return "redirect:/admin/banners/create";
+        }
+        Banner banner = new Banner();
+        banner.setTitle(name);
+        banner.setImage(filename);
+        banner.setStatus(status != null ? status : Boolean.TRUE);
+        bannerService.saveBanner(banner);
+        return "redirect:/admin/banners";
+    }
+
+
+    //create categories
     @GetMapping("/admin/categories/create")
     public String createCategoryForm(Model model) {
         Object u = httpSession.getAttribute("user");
