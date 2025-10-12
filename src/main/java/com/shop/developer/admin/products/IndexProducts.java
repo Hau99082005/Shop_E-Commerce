@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.shop.developer.modules.categories.Impl.CategoriesService;
 import com.shop.developer.modules.products.Impl.ProductsService;
+import com.shop.developer.modules.products.models.Products;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -32,5 +34,21 @@ public class IndexProducts {
         model.addAttribute("products", productsService.getAllProducts());
         model.addAttribute("categories", categoriesService.getAllCategories());
         return "admin/products/index";
+    }
+
+    @GetMapping("/admin/products/{id}/toggle")
+    public String toggleProduct(@PathVariable Long id) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        java.util.Optional<Products> opt = productsService.getProductById(id);
+        if (opt.isPresent()) {
+            Products p = opt.get();
+            p.setStatus(Boolean.TRUE.equals(p.getStatus()) ? Boolean.FALSE : Boolean.TRUE);
+            productsService.saveProduct(p);
+        }
+        return "redirect:/admin/products";
     }
 }

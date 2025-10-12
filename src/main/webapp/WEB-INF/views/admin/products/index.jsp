@@ -69,7 +69,9 @@
                                     </c:if>
                                 </td>
                                 <td>
-                                    <span class="badge ${p.status ? 'bg-success' : 'bg-secondary'}">${p.status ? 'Active' : 'Inactive'}</span>
+                                    <a class="btn btn-sm ${p.status ? 'btn-success' : 'btn-secondary'}" href="${pageContext.request.contextPath}/admin/products/${p.id}/toggle">
+                                        ${p.status ? 'Hoạt động' : 'Không hoạt động'}
+                                    </a>
                                 </td>
                                 <td class="text-end">
                                     <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/admin/products/${p.id}/edit">
