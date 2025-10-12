@@ -88,10 +88,13 @@
 
       <!-- Search -->
       <div class="col-12 col-md-8 order-3 order-md-2">
-        <form action="${pageContext.request.contextPath}/products" method="get" class="input-group">
-          <input type="text" name="search" class="form-control shp-search-input" placeholder="Tìm sản phẩm, thương hiệu và hơn thế nữa...">
-          <button class="btn btn-light shp-search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-        </form>
+        <form action="${pageContext.request.contextPath}/search" method="get" class="input-group">
+  <input type="text" name="keyword" class="form-control shp-search-input"
+         placeholder="Tìm sản phẩm, thương hiệu và hơn thế nữa...">
+  <button class="btn btn-light shp-search-btn" type="submit">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+</form>
         <div class="mt-2">
           <a class="btn btn-info btn-sm text-white fw-semibold" href="${pageContext.request.contextPath}/categories">
             <i class="fa-solid fa-bars"></i> Tất cả danh mục
