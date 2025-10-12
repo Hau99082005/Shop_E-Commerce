@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.shop.developer.modules.banner.Impl.BannerService;
 import com.shop.developer.modules.banner.models.Banner;
 import com.shop.developer.modules.banner.repositories.BannerRespository;
 import com.shop.developer.modules.categories.Impl.CategoriesService;
@@ -36,9 +35,6 @@ public class BaseController {
 
     @Autowired
     private ProductsService productsService;
-
-    @Autowired
-    private BannerService bannerService;
 
     @Autowired
     private BannerRespository bannerRespository;
@@ -113,28 +109,6 @@ public class BaseController {
         return "category";
     }
 
-    @GetMapping("/product/{id}")
-    public String productDetail(@PathVariable Long id, Model model) {
-        Optional<Products> productOpt = productsService.getProductById(id);
-        if (productOpt.isEmpty()) {
-            return "redirect:/";
-        }
-
-        Products product = productOpt.get();
-        model.addAttribute("product", product);
-
-        List<Categories> categories = categoriesService.getActiveCategories();
-        model.addAttribute("categories", categories);
-
-        List<Products> relatedProducts = productsService.getProductsByCategory(product.getCategory_id().intValue());
-        relatedProducts.removeIf(p -> p.getId().equals(id));
-        if (relatedProducts.size() > 4) {
-            relatedProducts = relatedProducts.subList(0, 4);
-        }
-        model.addAttribute("relatedProducts", relatedProducts);
-
-        return "product-detail";
-    }
 
     @GetMapping("/products")
     public String allProducts(@RequestParam(required = false) String search, Model model) {

@@ -59,9 +59,9 @@
                 </a>
               </td>
               <td>
-                <span class="fw-semibold text-primary">${p.price}</span>
+                <span class="fw-semibold text-primary">${p.price * 1000}</span>
                 <c:if test="${p.price_old != null && p.price_old > p.price}">
-                  <span class="text-muted text-decoration-line-through small ms-2">${p.price_old}</span>
+                  <span class="text-muted text-decoration-line-through small ms-2">${p.price_old * 1000}</span>
                 </c:if>
               </td>
               <td class="text-end">
