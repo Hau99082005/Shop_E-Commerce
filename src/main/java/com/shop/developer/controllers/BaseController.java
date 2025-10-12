@@ -334,14 +334,6 @@ public class BaseController {
         model.addAttribute("product", product);
         model.addAttribute("categories", categoriesService.getAllCategories());
         return "admin/products/create";
-        java.util.Optional<Banner> opt = bannerService.getBannerById(id);
-        if (opt.isPresent()) {
-            Banner b = opt.get();
-            Boolean cur = b.getStatus();
-            b.setStatus(cur == null ? Boolean.TRUE : !cur);
-            bannerService.saveBanner(b);
-        }
-        return "redirect:/admin/banners";
     }
 
     @GetMapping("/admin/banners/{id}/delete")
