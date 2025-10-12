@@ -256,6 +256,18 @@ public class BaseController {
         return "admin/users/index";
     }
 
+    @GetMapping("/admin/categories")
+    public String adminCategories(Model model) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        List<Categories> categories = categoriesService.getAllCategories();
+        model.addAttribute("categories", categories);
+        return "admin/categories/index";
+    }
+
     @GetMapping("/admin/users/{id}/delete")
     public String deleteUser(@PathVariable Long id) {
         Object u = httpSession.getAttribute("user");
@@ -267,5 +279,35 @@ public class BaseController {
             userRepository.deleteById(id);
         }
         return "redirect:/admin/users";
+    }
+
+    @GetMapping("/admin/categories/{id}/delete")
+    public String deleteCategory(@PathVariable Long id) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        if (id != null) {
+            categoriesService.deleteCategory(id);
+        }
+        return "redirect:/admin/categories";
+    }
+
+    @GetMapping("/admin/categories/{id}/toggle")
+    public String toggleCategoryStatus(@PathVariable Long id) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        java.util.Optional<Categories> opt = categoriesService.getCategoryById(id);
+        if (opt.isPresent()) {
+            Categories cat = opt.get();
+            Boolean current = cat.getStatus();
+            cat.setStatus(current == null ? Boolean.TRUE : !current);
+            categoriesService.saveCategory(cat);
+        }
+        return "redirect:/admin/categories";
     }
 }

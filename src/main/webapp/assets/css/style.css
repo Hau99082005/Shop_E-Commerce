@@ -86,96 +86,19 @@
     .filter-section {
         max-width: 100%; /* Full width for filters */
     }
-}<div class="container-fluid">
-    <div class="row">
-        <!-- Filter Sidebar -->
-        <div class="col-md-3 filter-sidebar">
-            <h6>Danh mục</h6>
-            <ul class="filter-list">
-                <li class="filter-item active"><a href="#">Tất cả danh mục</a></li>
-                <li class="filter-item"><a href="#">Điện thoại & Phụ kiện</a></li>
-                <!-- Add more categories -->
-            </ul>
-            <h6>Khoảng giá</h6>
-            <div class="price-filters">
-                <button class="price-filter-btn">Dưới 100.000đ</button>
-                <button class="price-filter-btn">100.000đ - 500.000đ</button>
-                <!-- Add more ranges -->
-            </div>
-        </div>
-
-        <!-- Products Grid -->
-        <div class="col-md-9">
-            <div class="products-header">
-                <h4 class="products-title">Tất cả sản phẩm</h4>
-                <p class="products-description">Khám phá tất cả sản phẩm của chúng tôi</p>
-            </div>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="path/to/image.jpg" alt="Product Image">
-                    </div>
-                    <div class="product-info">
-                        <h6 class="product-name">Tên sản phẩm</h6>
-                        <div class="product-price">
-                            <span class="old-price">500.000đ</span>
-                            <span class="current-price">400.000đ</span>
-                        </div>
-                        <button class="btn-add-cart">Thêm vào giỏ</button>
-                    </div>
-                </div>
-                <!-- Repeat product cards -->
-            </div>
-        </div>
-    </div>
-</div><div class="container-fluid">
-    <div class="row">
-        <!-- Filter Sidebar -->
-        <div class="col-md-3 filter-sidebar">
-            <h6>Danh mục</h6>
-            <ul class="filter-list">
-                <li class="filter-item active"><a href="#">Tất cả danh mục</a></li>
-                <li class="filter-item"><a href="#">Điện thoại & Phụ kiện</a></li>
-                <!-- Add more categories -->
-            </ul>
-            <h6>Khoảng giá</h6>
-            <div class="price-filters">
-                <button class="price-filter-btn">Dưới 100.000đ</button>
-                <button class="price-filter-btn">100.000đ - 500.000đ</button>
-                <!-- Add more ranges -->
-            </div>
-        </div>
-
-        <!-- Products Grid -->
-        <div class="col-md-9">
-            <div class="products-header">
-                <h4 class="products-title">Tất cả sản phẩm</h4>
-                <p class="products-description">Khám phá tất cả sản phẩm của chúng tôi</p>
-            </div>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="path/to/image.jpg" alt="Product Image">
-                    </div>
-                    <div class="product-info">
-                        <h6 class="product-name">Tên sản phẩm</h6>
-                        <div class="product-price">
-                            <span class="old-price">500.000đ</span>
-                            <span class="current-price">400.000đ</span>
-                        </div>
-                        <button class="btn-add-cart">Thêm vào giỏ</button>
-                    </div>
-                </div>
-                <!-- Repeat product cards -->
-            </div>
-        </div>
-    </div>
-</div>/* Tiki.vn Clone Style - Giống hệt Tiki.vn */
+}
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+/* example fallback if needed */
+.sidebar { transition: margin-left .3s ease; }
+.content { transition: margin-left .3s ease; }
+.sidebar.open { margin-left: 0 !important; }
+.sidebar:not(.open) { margin-left: -250px; }
+.content.open { margin-left: 250px; }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
