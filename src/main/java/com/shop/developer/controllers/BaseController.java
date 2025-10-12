@@ -92,8 +92,8 @@ public class BaseController {
         if (products == null || products.isEmpty()) {
             products = productsService.getAllProducts();
         }
-        if (products != null && products.size() > 8) {
-            products = products.subList(0, 8);
+        if (products != null && products.size() >= 100) {
+            products = products.subList(0, 100);
         }
         model.addAttribute("products", products);
 
