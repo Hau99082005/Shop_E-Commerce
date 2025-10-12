@@ -1,16 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8"/>
-  <title>Kết quả tìm kiếm</title>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/admin/css/bootstrap.min.css"/>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/admin/css/style.css"/>
-</head>
-<body>
-<div class="container py-4">
+
+<%@ include file="/WEB-INF/views/inc/header.jsp" %>
+
+<main class="container py-4">
   <h1 class="h4 mb-3">Tìm kiếm sản phẩm</h1>
 
   <form class="row g-2 mb-4" method="get" action="${pageContext.request.contextPath}/search">
@@ -36,36 +30,36 @@
       <div class="alert alert-info">Không tìm thấy sản phẩm phù hợp.</div>
     </c:when>
     <c:otherwise>
-      <div class="table-responsive">
-        <table class="table align-middle">
-          <thead>
+      <div class="table-responsive bg-white rounded shadow-sm">
+        <table class="table align-middle mb-0">
+          <thead class="table-light">
           <tr>
-            <th>Ảnh</th>
+            <th style="width:80px">Ảnh</th>
             <th>Tên</th>
-            <th>Giá</th>
-            <th></th>
+            <th style="width:220px">Giá</th>
+            <th style="width:150px"></th>
           </tr>
           </thead>
           <tbody>
           <c:forEach var="p" items="${productList}">
             <tr>
-              <td style="width:80px">
+              <td>
                 <c:choose>
                   <c:when test="${not empty p.image && (fn:startsWith(p.image, 'http://') || fn:startsWith(p.image, 'https://'))}">
-                    <img src="${p.image}" alt="${p.name}" style="height:60px"/>
+                    <img src="${p.image}" alt="${p.name}" class="img-thumbnail" style="height:60px;width:auto;"/>
                   </c:when>
                   <c:otherwise>
-                    <img src="${pageContext.request.contextPath}/assets/images/${p.image}" alt="${p.name}" style="height:60px"/>
+                    <img src="${pageContext.request.contextPath}/assets/images/${p.image}" alt="${p.name}" class="img-thumbnail" style="height:60px;width:auto;"/>
                   </c:otherwise>
                 </c:choose>
               </td>
-              <td>
+              <td class="text-truncate" style="max-width:520px;">
                 <a href="${pageContext.request.contextPath}/product/${p.id}" class="text-decoration-none">
                   ${p.name}
                 </a>
               </td>
               <td>
-                ${p.price}
+                <span class="fw-semibold text-primary">${p.price}</span>
                 <c:if test="${p.price_old != null && p.price_old > p.price}">
                   <span class="text-muted text-decoration-line-through small ms-2">${p.price_old}</span>
                 </c:if>
@@ -82,8 +76,6 @@
       </div>
     </c:otherwise>
   </c:choose>
-</div>
+</main>
 
-<script src="${pageContext.request.contextPath}/assets/admin/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<%@ include file="/WEB-INF/views/inc/footer.jsp" %>
