@@ -336,6 +336,143 @@ public class BaseController {
         return "admin/products/create";
     }
 
+    @PostMapping("/admin/products/create")
+    public String storeProduct(
+        @RequestParam String name,
+        @RequestParam String description,
+        @RequestParam Double price,
+        @RequestParam(required = false) Double price_old,
+        @RequestParam Integer quantity,
+        @RequestParam(name = "category_id") Integer categoryId,
+        @RequestParam(required = false) Boolean status,
+        @RequestParam(name = "image") MultipartFile image
+    ) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        if (image == null || image.isEmpty()) {
+            return "redirect:/admin/products/create";
+        }
+        String filename = null;
+        try {
+            String original = image.getOriginalFilename();
+            String safe = (original == null ? "image" : original).replaceAll("[^a-zA-Z0-9_.-]", "_");
+            filename = System.currentTimeMillis() + "_" + safe;
+            Path uploadDir = Paths.get("src/main/webapp/assets/images");
+            Files.createDirectories(uploadDir);
+            Path target = uploadDir.resolve(filename);
+            Files.copy(image.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return "redirect:/admin/products/create";
+        }
+        Products p = new Products();
+        p.setName(name);
+        p.setDescription(description);
+        p.setPrice(price);
+        p.setPrice_old(price_old);
+        p.setQuantity(quantity);
+        p.setCategory_id(categoryId);
+        p.setStatus(status != null ? status : Boolean.TRUE);
+        p.setView(0);
+        p.setImage(filename);
+        productsService.saveProduct(p);
+        return "redirect:/admin/products";
+    }
+
+    @GetMapping("/admin/products/{id}/edit")
+    public String editProductForm(@PathVariable Long id, Model model) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        Optional<Products> opt = productsService.getProductById(id);
+        if (opt.isEmpty()) {
+            return "redirect:/admin/products";
+        }
+        model.addAttribute("product", opt.get());
+        model.addAttribute("categories", categoriesService.getAllCategories());
+        return "admin/products/edit";
+    }
+
+    @PostMapping("/admin/products/{id}/edit")
+    public String updateProduct(
+        @PathVariable Long id,
+        @RequestParam String name,
+        @RequestParam String description,
+        @RequestParam Double price,
+        @RequestParam(required = false) Double price_old,
+        @RequestParam Integer quantity,
+        @RequestParam(name = "category_id") Integer categoryId,
+        @RequestParam(required = false) Boolean status,
+        @RequestParam(name = "oldImage", required = false) String oldImage,
+        @RequestParam(name = "image", required = false) MultipartFile image
+    ) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        Optional<Products> opt = productsService.getProductById(id);
+        if (opt.isEmpty()) {
+            return "redirect:/admin/products";
+        }
+        Products p = opt.get();
+        p.setName(name);
+        p.setDescription(description);
+        p.setPrice(price);
+        p.setPrice_old(price_old);
+        p.setQuantity(quantity);
+        p.setCategory_id(categoryId);
+        p.setStatus(status != null ? status : Boolean.FALSE);
+
+        String imageToSave = oldImage;
+        try {
+            if (image != null && !image.isEmpty()) {
+                String original = image.getOriginalFilename();
+                String safe = (original == null ? "image" : original).replaceAll("[^a-zA-Z0-9_.-]", "_");
+                String filename = System.currentTimeMillis() + "_" + safe;
+                Path uploadDir = Paths.get("src/main/webapp/assets/images");
+                Files.createDirectories(uploadDir);
+                Path target = uploadDir.resolve(filename);
+                Files.copy(image.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+                imageToSave = filename;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        p.setImage(imageToSave);
+        productsService.saveProduct(p);
+        return "redirect:/admin/products";
+    }
+
+    @GetMapping("/admin/products/{id}/delete")
+    public String deleteProduct(@PathVariable Long id) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        Optional<Products> opt = productsService.getProductById(id);
+        if (opt.isPresent()) {
+            Products p = opt.get();
+            try {
+                String img = p.getImage();
+                if (img != null && !img.isBlank()) {
+                    Path uploadDir = Paths.get("src/main/webapp/assets/images");
+                    Files.createDirectories(uploadDir);
+                    Path path = uploadDir.resolve(img);
+                    Files.deleteIfExists(path);
+                }
+            } catch (Exception ignore) {}
+            productsService.deleteProduct(id);
+        }
+        return "redirect:/admin/products";
+    }
+
     @GetMapping("/admin/banners/{id}/delete")
     public String deleteBanner(@PathVariable Long id) {
         Object u = httpSession.getAttribute("user");

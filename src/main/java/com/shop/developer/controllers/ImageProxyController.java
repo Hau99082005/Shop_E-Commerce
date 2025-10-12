@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
