@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -19,7 +20,7 @@
             <div class="bg-light rounded h-100 p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3 class="mb-0">Quản trị - Danh mục</h3>
-                    <a class="btn btn-primary disabled" href="#"> <i class="fa-solid fa-plus"></i> Thêm danh mục</a>
+                    <a class="btn btn-primary" href="${pageContext.request.contextPath}/admin/categories/create"> <i class="fa-solid fa-plus"></i> Thêm danh mục</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table align-middle">
@@ -39,7 +40,18 @@
                                 <td>${c.name}</td>
                                 <td>
                                     <c:if test="${not empty c.thumbnail}">
-                                        <img src="${c.thumbnail}" alt="${c.name}" style="height:40px" />
+                                        <c:set var="thumbnail" value="${c.thumbnail}" />
+                                        <c:choose>
+                                            <c:when test="${fn:startsWith(thumbnail, 'http://') || fn:startsWith(thumbnail, 'https://')}">
+  <img src="${pageContext.request.contextPath}/img-proxy?url=${fn:escapeXml(thumbnail)}"
+       alt="${c.name}" style="height:40px" loading="lazy"
+       onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/images/placeholder.png';" />
+</c:when>
+                                            <c:otherwise>
+                                                <img src="${pageContext.request.contextPath}/assets/images/${c.thumbnail}" alt="${c.name}" style="height:40px" 
+                                                     onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/assets/images/hero4.png';" />
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:if>
                                 </td>
                                 <td>
@@ -53,7 +65,7 @@
                                     </div>
                                 </td>
                                 <td class="text-end">
-                                    <a class="btn btn-sm btn-outline-primary disabled" href="#"><i class="fa-solid fa-pen-to-square"></i>Sửa</a>
+                                    <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/admin/categories/${c.id}/edit"><i class="fa-solid fa-pen-to-square"></i>Sửa</a>
                                     <a class="btn btn-sm btn-outline-danger" href="${pageContext.request.contextPath}/admin/categories/${c.id}/delete" onclick="return confirm('Xóa danh mục này?');"><i class="fa-solid fa-trash"></i>Xóa</a>
                                 </td>
                             </tr>

@@ -15,6 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import com.shop.developer.modules.banner.models.Banner;
 import com.shop.developer.modules.banner.repositories.BannerRespository;
@@ -268,6 +275,54 @@ public class BaseController {
         return "admin/categories/index";
     }
 
+    @GetMapping("/admin/categories/create")
+    public String createCategoryForm(Model model) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        Categories category = new Categories();
+        category.setStatus(Boolean.TRUE);
+        model.addAttribute("category", category);
+        return "admin/categories/create";
+    }
+
+    @PostMapping("/admin/categories/create")
+    public String storeCategory(
+        @RequestParam String name,
+        @RequestParam(required = false) Boolean status,
+        @RequestParam(name = "image") MultipartFile image
+    ) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        if (image == null || image.isEmpty()) {
+            return "redirect:/admin/categories/create";
+        }
+        String filename = null;
+        try {
+            String original = image.getOriginalFilename();
+            String safe = (original == null ? "image" : original).replaceAll("[^a-zA-Z0-9_.-]", "_");
+            filename = System.currentTimeMillis() + "_" + safe;
+            Path uploadDir = Paths.get("src/main/webapp/assets/images");
+            Files.createDirectories(uploadDir);
+            Path target = uploadDir.resolve(filename);
+            Files.copy(image.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return "redirect:/admin/categories/create";
+        }
+        Categories cat = new Categories();
+        cat.setName(name);
+        cat.setThumbnail(filename);
+        cat.setStatus(status != null ? status : Boolean.TRUE);
+        categoriesService.saveCategory(cat);
+        return "redirect:/admin/categories";
+    }
+
     @GetMapping("/admin/users/{id}/delete")
     public String deleteUser(@PathVariable Long id) {
         Object u = httpSession.getAttribute("user");
@@ -308,6 +363,64 @@ public class BaseController {
             cat.setStatus(current == null ? Boolean.TRUE : !current);
             categoriesService.saveCategory(cat);
         }
+        return "redirect:/admin/categories";
+    }
+
+    @GetMapping("/admin/categories/{id}/edit")
+    public String editCategoryForm(@PathVariable Long id, Model model) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        java.util.Optional<Categories> opt = categoriesService.getCategoryById(id);
+        if (opt.isEmpty()) {
+            return "redirect:/admin/categories";
+        }
+        model.addAttribute("category", opt.get());
+        return "admin/categories/edit";
+    }
+
+    @PostMapping("/admin/categories/{id}/edit")
+    public String updateCategory(
+        @PathVariable Long id,
+        @RequestParam String name,
+        @RequestParam(required = false) Boolean status,
+        @RequestParam(name = "oldThumbnail", required = false) String oldThumbnail,
+        @RequestParam(name = "image", required = false) MultipartFile image
+    ) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User) ||
+            !"admin".equals(((com.shop.developer.modules.users.models.User) u).getRole())) {
+            return "redirect:/login";
+        }
+        java.util.Optional<Categories> opt = categoriesService.getCategoryById(id);
+        if (opt.isEmpty()) {
+            return "redirect:/admin/categories";
+        }
+
+        Categories cat = opt.get();
+        cat.setName(name);
+        cat.setStatus(status != null ? status : Boolean.FALSE);
+
+        String filenameToSave = oldThumbnail;
+        try {
+            if (image != null && !image.isEmpty()) {
+                String original = image.getOriginalFilename();
+                String safe = (original == null ? "image" : original).replaceAll("[^a-zA-Z0-9_.-]", "_");
+                String filename = System.currentTimeMillis() + "_" + safe;
+                Path uploadDir = Paths.get("src/main/webapp/assets/images");
+                Files.createDirectories(uploadDir);
+                Path target = uploadDir.resolve(filename);
+                Files.copy(image.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+                filenameToSave = filename;
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        cat.setThumbnail(filenameToSave);
+        categoriesService.saveCategory(cat);
         return "redirect:/admin/categories";
     }
 }

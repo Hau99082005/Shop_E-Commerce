@@ -22,7 +22,7 @@
                                  <a href="${pageContext.request.contextPath}/admin/users" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-user me-2"></i>Users</a>
                                  <div class="dropdown-menu bg-transparent border-0">
                                  <a href="${pageContext.request.contextPath}/admin/users" class="dropdown-item">All</a>
-                            <a href="#" class="dropdown-item disabled">Add</a>
+                            
                          </div>
                         </div>
 
@@ -31,7 +31,6 @@
                         <a href="${pageContext.request.contextPath}/admin/categories" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-layer-group me-2"></i>Categories</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="${pageContext.request.contextPath}/admin/categories" class="dropdown-item">All</a>
-                            <a href="#" class="dropdown-item disabled">Add</a>
                         </div>
                     </div>
 

@@ -29,6 +29,7 @@
                 <th>Email</th>
                 <th>Tên</th>
                 <th>Phone</th>
+                <th>Địa chỉ</th>
                 <th>Role</th>
                 <th>Created At</th>
                 <th class="text-end">Thao tác</th>
@@ -41,12 +42,14 @@
                   <td>${u.email}</td>
                   <td><c:out value="${u.name}" /></td>
                   <td>${u.phone}</td>
+                   <td>${u.address}</td>
                   <td>
                     <span class="badge rounded-pill ${u.role == 'admin' ? 'border border-primary text-primary bg-transparent' : 'border border-secondary text-secondary bg-transparent'}">
                       <i class="fa ${u.role == 'admin' ? 'fa-user-shield' : 'fa-user'} me-1"></i>
                       ${u.role}
                     </span>
                   </td>
+                 
                   <td>${u.createdAt}</td>
                   <td class="text-end">
                     <a class="btn btn-sm btn-outline-danger" href="${pageContext.request.contextPath}/admin/users/${u.id}/delete" onclick="return confirm('Xóa user #${u.id}?');">Xóa</a>
