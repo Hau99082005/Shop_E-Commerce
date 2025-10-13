@@ -126,7 +126,7 @@
               <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                 <li><h6 class="dropdown-header">Xin chào, ${sessionScope.user.email}</h6></li>
                 <li><a class="dropdown-item" href="${pageContext.request.contextPath}/profile">Thông tin tài khoản</a></li>
-                <li><a class="dropdown-item" href="#">Đơn hàng của tôi</a></li>
+                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/orders/mine">Đơn hàng của tôi</a></li>
                 <c:if test="${sessionScope.user.role == 'admin'}">
                   <li><a class="dropdown-item fw-bold text-primary" href="${pageContext.request.contextPath}/admin/users">Quản trị</a></li>
                 </c:if>

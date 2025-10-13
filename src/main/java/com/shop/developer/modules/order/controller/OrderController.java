@@ -1,6 +1,7 @@
 package com.shop.developer.modules.order.controller;
 
 import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.shop.developer.Cart;
 import com.shop.developer.modules.order.Impl.OrderService;
+import com.shop.developer.modules.order.models.Order;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -26,6 +28,20 @@ public class OrderController {
     public String index(Model model) {
         model.addAttribute("orders", orderService.findAll());
         return "orders/index"; // Tạo view nếu cần, hoặc thay bằng JSON/API
+    }
+
+    // Trang Đơn hàng của tôi- chỉ lấy theo user trong session
+    @GetMapping("/mine")
+    public String myOrders(HttpSession session, Model model) {
+        Object u = session.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User)) {
+            return "redirect:/login";
+        }
+        com.shop.developer.modules.users.models.User user = (com.shop.developer.modules.users.models.User) u;
+        int uid = user.getId() != null ? user.getId().intValue() : 0;
+        List<Order> orders = orderService.findByUserId(uid);
+        model.addAttribute("orders", orders);
+        return "orders-mine";
     }
 
     // Checkout: tạo Order từ giỏ hàng (CART trong session) rồi clear giỏ
