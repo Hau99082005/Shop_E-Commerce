@@ -100,18 +100,7 @@
             <i class="fa-solid fa-bars"></i> Tất cả danh mục
           </a>
         </div>
-        <!-- popular keywords -->
-        <div class="d-none d-md-flex gap-3 small mt-2 flex-wrap">
-          <c:choose>
-            <c:when test="${not empty categories}">
-              <c:forEach var="cat" items="${categories}" varStatus="st">
-                <c:if test="${st.index < 6}">
-                  <a class="text-white-50 text-decoration-none" href="${pageContext.request.contextPath}/products?search=${cat.name}">${cat.name}</a>
-                </c:if>
-              </c:forEach>
-            </c:when>
-          </c:choose>
-        </div>
+        
       </div>
 
       <!-- Cart + User -->

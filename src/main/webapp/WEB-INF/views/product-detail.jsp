@@ -14,7 +14,7 @@
     <nav aria-label="breadcrumb" class="mb-3">
       <ol class="breadcrumb mb-0">
         <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/">Trang chủ</a></li>
-        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/category/${product.category_id}">Danh mục</a></li>
+        <li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/shop?categoryId=${product.category_id}">Danh mục</a></li>
         <li class="breadcrumb-item active" aria-current="page">${product.name}</li>
       </ol>
     </nav>

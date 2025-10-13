@@ -19,7 +19,7 @@
           <label class="form-label small">Họ tên</label>
           <div class="input-group">
             <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
-            <input type="text" name="name" class="form-control" placeholder="VD: Nguyễn Văn A">
+            <input type="text" name="name" class="form-control" placeholder="vui lòng nhập tên của bạn">
           </div>
         </div>
         <div class="mb-2">

@@ -1,9 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ include file="/WEB-INF/views/inc/header.jsp" %>
 
+<fmt:setLocale value="vi_VN"/>
 <main class="container py-4">
   <h1 class="h4 mb-3">Tìm kiếm sản phẩm</h1>
 
@@ -59,9 +61,9 @@
                 </a>
               </td>
               <td>
-                <span class="fw-semibold text-primary">${p.price * 1000}</span>
+                <span class="fw-semibold text-primary"><fmt:formatNumber value="${p.price * 1000}" type="number" groupingUsed="true" maxFractionDigits="0"/> ₫</span>
                 <c:if test="${p.price_old != null && p.price_old > p.price}">
-                  <span class="text-muted text-decoration-line-through small ms-2">${p.price_old * 1000}</span>
+                  <span class="text-muted text-decoration-line-through small ms-2"><fmt:formatNumber value="${p.price_old * 1000}" type="number" groupingUsed="true" maxFractionDigits="0"/> ₫</span>
                 </c:if>
               </td>
               <td class="text-end">

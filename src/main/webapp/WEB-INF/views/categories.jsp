@@ -14,7 +14,7 @@
     <div class="row g-3">
       <c:forEach var="cat" items="${categories}">
         <div class="col-6 col-md-4 col-lg-3">
-          <a href="${pageContext.request.contextPath}/category/${cat.id}" class="text-decoration-none">
+          <a href="${pageContext.request.contextPath}/shop?categoryId=${cat.id}" class="text-decoration-none">
             <div class="bg-white rounded-4 shadow-sm p-2 h-100 d-flex flex-column" style="border:1px solid #55C5EA;">
               <div class="ratio ratio-4x3 rounded-3 overflow-hidden mb-2">
                 <c:choose>

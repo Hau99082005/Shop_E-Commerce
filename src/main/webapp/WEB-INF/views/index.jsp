@@ -97,7 +97,7 @@
         <div class="row g-3 row-cols-3 row-cols-sm-5 row-cols-md-7 row-cols-lg-10">
           <c:forEach var="category" items="${categories}">
             <div class="col">
-              <a href="${pageContext.request.contextPath}/category/${category.id}" class="text-decoration-none d-flex flex-column align-items-center">
+              <a href="${pageContext.request.contextPath}/shop?categoryId=${category.id}" class="text-decoration-none d-flex flex-column align-items-center">
                 <div class="rounded-circle overflow-hidden d-flex align-items-center justify-content-center cat-pill" style="border: 2px solid #55C5EA; background: #f0f9ff; width: 60px; height: 60px;">
                   <c:choose>
                     <c:when test="${not empty category.thumbnail}">
@@ -169,7 +169,7 @@
                   </c:forEach>
                   <c:choose>
                     <c:when test="${not empty catName}">
-                      <a href="${pageContext.request.contextPath}/category/${product.category_id}" class="text-decoration-none text-secondary">${catName}</a>
+                      <a href="${pageContext.request.contextPath}/shop?categoryId=${product.category_id}" class="text-decoration-none text-secondary">${catName}</a>
                     </c:when>
                     <c:otherwise>
                       <span class="text-secondary">Danh mục</span>
