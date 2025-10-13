@@ -1,11 +1,9 @@
 package com.shop.developer.modules.order.Impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-import java.math.BigDecimal;
-import com.shop.developer.util.StringHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +13,7 @@ import com.shop.developer.modules.OrderItems.models.OrderItems;
 import com.shop.developer.modules.OrderItems.repositories.OrderItemsRepository;
 import com.shop.developer.modules.order.models.Order;
 import com.shop.developer.modules.order.repositories.OrderRepository;
+import com.shop.developer.util.StringHelper;
 
 @Service
 public class OrderService {
@@ -94,6 +93,6 @@ public class OrderService {
     }
 
     private String generateOrderCode() {
-        return "ORD-" + StringHelper.randomString(8).toUpperCase();
+        return StringHelper.randomString(8).toUpperCase();
     }
 }
