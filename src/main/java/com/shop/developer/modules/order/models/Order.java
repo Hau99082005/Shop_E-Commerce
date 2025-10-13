@@ -1,5 +1,4 @@
 package com.shop.developer.modules.order.models;
-
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -72,6 +71,5 @@ public class Order {
     public void setUserId(int user_id) {
         this.user_id = user_id;
     }
-
 
 }
