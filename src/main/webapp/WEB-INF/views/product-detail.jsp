@@ -77,20 +77,22 @@
               <li class="mb-1"><i class="fa-solid fa-rotate-left me-2 text-warning"></i>Đổi trả trong 7 ngày</li>
             </ul>
 
-            <div class="d-flex align-items-center gap-2 mb-3">
-              <label class="small text-muted">Số lượng</label>
-              <div class="input-group" style="width: 140px;">
-                <button class="btn btn-outline-secondary" type="button" onclick="var i=document.getElementById('qty'); if(i.value>1) i.value=parseInt(i.value)-1;">-</button>
-                <input id="qty" type="number" class="form-control text-center" value="1" min="1" />
-                <button class="btn btn-outline-secondary" type="button" onclick="var i=document.getElementById('qty'); i.value=parseInt(i.value||1)+1;">+</button>
+            <form method="post" action="${pageContext.request.contextPath}/cart/add">
+              <input type="hidden" name="productId" value="${product.id}"/>
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <label class="small text-muted">Số lượng</label>
+                <div class="input-group" style="width: 160px;">
+                  <button class="btn btn-outline-secondary" type="button" onclick="var i=document.getElementById('qty'); if(i.value>1) i.value=parseInt(i.value)-1;">-</button>
+                  <input id="qty" name="quantity" type="number" class="form-control text-center" value="1" min="1" />
+                  <button class="btn btn-outline-secondary" type="button" onclick="var i=document.getElementById('qty'); i.value=parseInt(i.value||1)+1;">+</button>
+                </div>
               </div>
-            </div>
-
-            <div class="d-flex gap-2">
-              <a href="#" class="btn btn-primary"><i class="fa-solid fa-cart-plus me-1"></i> Thêm vào giỏ</a>
-              <a href="#" class="btn btn-outline-primary">Mua ngay</a>
-              <a href="#" class="btn btn-outline-secondary">Yêu thích</a>
-            </div>
+              <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-cart-plus me-1"></i> Thêm vào giỏ</button>
+                <a href="${pageContext.request.contextPath}/cart" class="btn btn-outline-primary">Mua ngay</a>
+                <a href="#" class="btn btn-outline-secondary">Yêu thích</a>
+              </div>
+            </form>
           </div>
         </div>
       </div>

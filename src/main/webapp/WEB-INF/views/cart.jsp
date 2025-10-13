@@ -1,165 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cara</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./assets/css/style.css">
-</head>
+<%@ include file="/WEB-INF/views/inc/header.jsp" %>
 
-<body>
+<fmt:setLocale value="vi_VN"/>
+<main class="container py-4">
+  <h1 class="h4 mb-3">Giỏ hàng</h1>
 
-    <header id="header">
-        <a href="#"><img src="./assets/img/logo.png" class="logo" alt=""></a>
-        <ul id="navbar">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="shop.html">Shop</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a class="active" href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
-            <li><a href="user.html"><i class="fa-solid fa-user"></i></a></li>
-        </ul>
-    </header>
-
-    <section id="page-header" class="about-header">
-        <h2>#let's_talk</h2>
-        <p>LEAVE A MESSAGE, We love to hear from you!</p>
-    </section>
-
-    <section id="cart" class="section-p1">
-        <table width="100%">
-            <thead>
-                <tr>
-                    <td>Remove</td>
-                    <td>Image</td>
-                    <td>Product</td>
-                    <td>Price</td>
-                    <td>Quantidy</td>
-                    <td>Subtotal</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="#"></a><i class="fa-regular fa-circle-xmark"></i></td>
-                    <td><img src="./assets/img/products/f1.jpg" alt=""></td>
-                    <td>Cartoon Astronaut T-Shirts</td>
-                    <td>$118.19</td>
-                    <td><input type="number" value="1"></td>
-                    <td>$118.19</td>
-                </tr>
-                <tr>
-                    <td><a href="#"></a><i class="fa-regular fa-circle-xmark"></i></td>
-                    <td><img src="./assets/img/products/f2.jpg" alt=""></td>
-                    <td>Cartoon Astronaut T-Shirts</td>
-                    <td>$118.19</td>
-                    <td><input type="number" value="1"></td>
-                    <td>$118.19</td>
-                </tr>
-                <tr>
-                    <td><a href="#"></a><i class="fa-regular fa-circle-xmark"></i></td>
-                    <td><img src="./assets/img/products/f3.jpg" alt=""></td>
-                    <td>Cartoon Astronaut T-Shirts</td>
-                    <td>$118.19</td>
-                    <td><input type="number" value="1"></td>
-                    <td>$118.19</td>
-                </tr>
-            </tbody>
+  <c:choose>
+    <c:when test="${empty items}">
+      <div class="alert alert-info">Giỏ hàng của bạn đang trống.</div>
+      <a href="${pageContext.request.contextPath}/shop" class="btn btn-primary">Tiếp tục mua sắm</a>
+    </c:when>
+    <c:otherwise>
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th style="width:48px"></th>
+              <th>Sản phẩm</th>
+              <th class="text-end" style="width:140px">Đơn giá</th>
+              <th class="text-center" style="width:160px">Số lượng</th>
+              <th class="text-end" style="width:160px">Thành tiền</th>
+            </tr>
+          </thead>
+          <tbody>
+            <c:forEach var="it" items="${items}">
+              <tr>
+                <td>
+                  <form method="post" action="${pageContext.request.contextPath}/cart/delete">
+                    <input type="hidden" name="productId" value="${it.product.id}"/>
+                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">
+                      <i class="fa-regular fa-circle-xmark"></i>
+                    </button>
+                  </form>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center gap-2">
+                    <c:choose>
+                      <c:when test="${not empty it.product.image && (fn:startsWith(it.product.image, 'http://') || fn:startsWith(it.product.image, 'https://'))}">
+                        <img src="${it.product.image}" alt="${it.product.name}" style="height:56px;width:56px;object-fit:contain"/>
+                      </c:when>
+                      <c:otherwise>
+                        <img src="${pageContext.request.contextPath}/assets/images/${it.product.image}" alt="${it.product.name}" style="height:56px;width:56px;object-fit:contain"/>
+                      </c:otherwise>
+                    </c:choose>
+                    <div>
+                      <div class="fw-semibold">${it.product.name}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-end">
+                  <fmt:formatNumber value="${it.product.price * 1000}" type="number" groupingUsed="true" maxFractionDigits="0"/> ₫
+                </td>
+                <td class="text-center">
+                  <form method="post" action="${pageContext.request.contextPath}/cart/update" class="d-inline-flex align-items-center justify-content-center gap-2">
+                    <input type="hidden" name="productId" value="${it.product.id}"/>
+                    <input type="number" name="quantity" class="form-control form-control-sm text-center" style="width: 80px;" min="1" value="${it.quantity}"/>
+                    <button type="submit" class="btn btn-sm btn-outline-primary">Cập nhật</button>
+                  </form>
+                </td>
+                <td class="text-end">
+                  <fmt:formatNumber value="${it.lineTotal}" type="number" groupingUsed="true" maxFractionDigits="0"/> ₫
+                </td>
+              </tr>
+            </c:forEach>
+          </tbody>
         </table>
-    </section>
+      </div>
 
-    <section id="cart-add" class="section-p1">
-        <div class="coupon">
-            <h3>Apply Coupon</h3>
-            <div>
-                <input type="text" placeholder="Enter Your Coupon">
-                <button class="normal">Apply</button>
+      <div class="row mt-3 g-3">
+        <div class="col-md-6">
+          <a href="${pageContext.request.contextPath}/shop" class="btn btn-outline-secondary">Tiếp tục mua sắm</a>
+        </div>
+        <div class="col-md-6">
+          <div class="card ms-md-auto" style="max-width: 420px;">
+            <div class="card-body">
+              <div class="d-flex justify-content-between mb-2">
+                <span>Tổng số lượng</span>
+                <strong>${totalQuantity}</strong>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span>Tạm tính</span>
+                <strong><fmt:formatNumber value="${total}" type="number" groupingUsed="true" maxFractionDigits="0"/> ₫</strong>
+              </div>
+              <div class="d-flex justify-content-between mb-3 small text-muted">
+                <span>Vận chuyển</span>
+                <span>Miễn phí</span>
+              </div>
+              <div class="d-flex justify-content-between border-top pt-3">
+                <span class="fw-semibold">Tổng</span>
+                <span class="fw-bold text-primary"><fmt:formatNumber value="${total}" type="number" groupingUsed="true" maxFractionDigits="0"/> ₫</span>
+              </div>
+              <a href="#" class="btn btn-primary w-100 mt-3">Thanh toán</a>
             </div>
+          </div>
         </div>
+      </div>
+    </c:otherwise>
+  </c:choose>
+</main>
 
-        <div class="subtotal">
-            <h3>Cart Total</h3>
-            <table>
-                <tr>
-                    <td>Cart Subtotal</td>
-                    <td>$335</td>
-                </tr>
-                <tr>
-                    <td>Shipping</td>
-                    <td>Free</td>
-                </tr>
-                <tr>
-                    <td><strong>Total</strong></td>
-                    <td><strong>$335</strong></td>
-                </tr>
-            </table>
-            <button class="normal">Proceed to checkout</button>
-        </div>
-    </section>
-
-    <section id="newsletter" class="section-p1 section-m1">
-        <div class="newstext">
-            <h4>Sign Up For Newsletters</h4>
-            <p>Get E-mail updates about our latest shop and <span>special offers</span></p>
-        </div>
-        <div class="form">
-            <input type="text" placeholder="Your email address">
-            <button class="normal">Sign up</button>
-        </div>
-    </section>
-
-    <footer class="section-p1">
-        <div class="col">
-            <img class="logo" src="./assets/img/logo.png" alt="">
-            <h4>Contact</h4>
-            <p><strong>Address:</strong> Cao Dang Cong Nghiep - Hueic</p>
-            <p><strong>Phone:</strong> +84000111222</p>
-            <p><strong>Hours:</strong> 8AM - 21PM, Mon - Sat</p>
-            <div class="follow">
-                <h4>Follow us</h4>
-                <div class="icon">
-                    <i class="fa-brands fa-facebook-f"></i>
-                    <i class="fa-brands fa-twitter"></i>
-                    <i class="fa-brands fa-instagram"></i>
-                    <i class="fa-brands fa-pinterest-p"></i>
-                    <i class="fa-brands fa-youtube"></i>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <h4>About</h4>
-            <a href="#">About us</a>
-            <a href="#">Delivery Information</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & Conditions</a>
-            <a href="#">Contact Us</a>
-        </div>
-        <div class="col">
-            <h4>My Account</h4>
-            <a href="#">Sign In</a>
-            <a href="#">View Cart</a>
-            <a href="#">My Wishlist</a>
-            <a href="#">Track My Oder</a>
-            <a href="#">Help</a>
-        </div>
-        <div class="col install">
-            <h4>Install App</h4>
-            <p>From App Store or Google Play</p>
-            <div class="row">
-                <img src="./assets/img/pay/app.jpg" alt="">
-                <img src="./assets/img/pay/play.jpg" alt="">
-            </div>
-            <p>Secured Payment Gateaways</p>
-            <img src="./assets/img/pay/pay.png" alt="">
-        </div>
-    </footer>
-
-</body>
-
-</html>
+<%@ include file="/WEB-INF/views/inc/footer.jsp" %>

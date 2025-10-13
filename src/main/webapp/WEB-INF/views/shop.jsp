@@ -50,8 +50,13 @@
                   </c:if>
                 </div>
               </div>
-              <div class="card-footer bg-white border-0 pt-0">
-                <a href="${pageContext.request.contextPath}/product/${p.id}" class="btn btn-sm btn-outline-primary w-100">Xem chi tiết</a>
+              <div class="card-footer bg-white border-0 pt-0 d-grid gap-2">
+                <a href="${pageContext.request.contextPath}/product/${p.id}" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
+                <form method="post" action="${pageContext.request.contextPath}/cart/add" class="d-grid">
+                  <input type="hidden" name="productId" value="${p.id}"/>
+                  <input type="hidden" name="quantity" value="1"/>
+                  <button type="submit" class="btn btn-sm btn-primary"><i class="fa-solid fa-cart-plus me-1"></i> Thêm vào giỏ</button>
+                </form>
               </div>
             </div>
           </div>

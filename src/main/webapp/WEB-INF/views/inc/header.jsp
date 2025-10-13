@@ -105,9 +105,15 @@
 
       <!-- Cart + User -->
       <div class="col-6 col-md-2 d-flex justify-content-end align-items-center gap-3 order-2 order-md-3">
-        <a class="text-white position-relative shp-icon" href="#" title="Giỏ hàng">
+        <c:set var="cartCount" value="0"/>
+        <c:if test="${not empty sessionScope.CART}">
+          <c:forEach var="line" items="${sessionScope.CART.values()}">
+            <c:set var="cartCount" value="${cartCount + line.quantity}"/>
+          </c:forEach>
+        </c:if>
+        <a class="text-white position-relative shp-icon" href="${pageContext.request.contextPath}/cart" title="Giỏ hàng">
           <i class="fa-solid fa-cart-shopping"></i>
-          <span class="badge text-bg-danger position-absolute top-0 start-100 translate-middle p-1 rounded-pill">0</span>
+          <span class="badge text-bg-danger position-absolute top-0 start-100 translate-middle p-1 rounded-pill">${cartCount}</span>
         </a>
 
         <c:choose>
