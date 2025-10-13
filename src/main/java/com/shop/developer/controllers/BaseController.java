@@ -246,4 +246,15 @@ public class BaseController {
         }
         return "redirect:/admin/users";
     }
+
+    @GetMapping("/profile")
+    public String profile(Model model) {
+        Object u = httpSession.getAttribute("user");
+        if (u == null || !(u instanceof com.shop.developer.modules.users.models.User)) {
+            return "redirect:/login";
+        }
+        List<Categories> categories = categoriesService.getActiveCategories();
+        model.addAttribute("categories", categories);
+        return "profile"; //trả về profile.jsp
+    }
 }
