@@ -11,5 +11,5 @@ import com.shop.developer.modules.order.models.Order;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>{
     Optional<Order> findByCode(String code);
-    List<Order> findByUser_id(int user_id);
+    List<Order> findByUserId(int userId);
 }

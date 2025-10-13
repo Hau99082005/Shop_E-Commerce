@@ -20,7 +20,8 @@ public class Order {
     private Long id;
     private String code;
     private Boolean status;
-    public int user_id;
+    @Column(name="user_id")
+    private int userId;
       @Column(name="created_at", updatable=false)
     private LocalDateTime createdAt;
 
@@ -40,11 +41,11 @@ public class Order {
     public Order() {
         super();
     }
-    public Order(String code, Boolean status, int user_id) {
+    public Order(String code, Boolean status, int userId) {
         super();
         this.code = code;
         this.status = status;
-        this.user_id = user_id;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -66,10 +67,10 @@ public class Order {
         this.status = status;
     }
     public int getUserId() {
-        return user_id;
+        return userId;
     }
-    public void setUserId(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
 }

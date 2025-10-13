@@ -22,7 +22,7 @@ public class OrderItemsService {
     }
 
     public List<OrderItems> findByOrderId(int orderId) {
-        return orderItemsRepository.findByOrder_id(orderId);
+        return orderItemsRepository.findByOrderId(orderId);
     }
 
     public OrderItems save(OrderItems item) {
@@ -34,14 +34,14 @@ public class OrderItemsService {
     }
 
     public OrderItems updateQuantityAndPrice(Long id, Integer quantity, Double price) {
-        OrderItems orderItems = orderItemsRepository.findById(id).orElse(null);
-        if (orderItems == null) return null;
+        OrderItems oi = orderItemsRepository.findById(id).orElse(null);
+        if (oi == null) return null;
         if (quantity != null && quantity > 0) {
-            orderItems.setQuantity(quantity);
+            oi.setQuantity(quantity);
         }
         if (price != null && price >= 0) {
-            orderItems.setPrice(price);
+            oi.setPrice(price);
         }
-        return orderItemsRepository.save(orderItems);
+        return orderItemsRepository.save(oi);
     }
 }

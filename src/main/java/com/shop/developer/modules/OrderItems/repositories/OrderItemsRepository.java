@@ -9,5 +9,5 @@ import com.shop.developer.modules.OrderItems.models.OrderItems;
 
 @Repository
 public interface OrderItemsRepository extends JpaRepository<OrderItems, Long> {
-     List<OrderItems> findByOrder_id(int order_id);
+     List<OrderItems> findByOrderId(int orderId);
 }

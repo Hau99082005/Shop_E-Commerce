@@ -31,7 +31,7 @@ public class OrderService {
     }
 
     public List<Order> findByUserId(int userId) {
-        return orderRepository.findByUser_id(userId);
+        return orderRepository.findByUserId(userId);
     }
 
     public Order findByCode(String code) {

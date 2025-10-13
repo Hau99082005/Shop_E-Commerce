@@ -1,5 +1,6 @@
 package com.shop.developer.modules.OrderItems.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,10 +15,15 @@ public class OrderItems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private int quantity;
     private double price;
-    private int order_id;
-    private int product_id;
+
+    @Column(name = "order_id")
+    private int orderId;
+
+    @Column(name = "product_id")
+    private int productId;
 
     public OrderItems() {
         super();
@@ -26,8 +32,8 @@ public class OrderItems {
         super();
         this.quantity = quantity;
         this.price = price;
-        this.order_id = order_id;
-        this.product_id = product_id;
+        this.orderId = order_id;
+        this.productId = product_id;
     }
     public Long getId() {
         return id;
@@ -48,15 +54,15 @@ public class OrderItems {
         this.price = price;
     }
     public int getOrderId() {
-        return order_id;
+        return orderId;
     }
     public void setOrderId(int order_id) {
-        this.order_id = order_id;
+        this.orderId = order_id;
     }
     public int getProductId() {
-        return product_id;
+        return productId;
     }
     public void setProductId(int product_id) {
-        this.product_id = product_id;
+        this.productId = product_id;
     }
 }
