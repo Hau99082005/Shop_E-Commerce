@@ -35,6 +35,12 @@ public class OrderItems {
     public void setId(Long id) {
         this.id = id;
     }
+    public int getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
     public double getPrice() {
         return price;
     }
