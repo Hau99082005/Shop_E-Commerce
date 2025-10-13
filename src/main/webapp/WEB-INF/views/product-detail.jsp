@@ -121,7 +121,15 @@
                       </c:choose>
                       <div class="card-body">
                         <div class="small text-truncate mb-1">${p.name}</div>
-                        <div class="fw-semibold text-primary"><fmt:formatNumber value="${p.price * 1000}" type="number" /></div>
+                       <div class="d-flex align-items-center" style="gap: 8px;">
+  <div class="fw-semibold text-primary" style="font-size: 18px;">
+    <fmt:formatNumber value="${p.price * 1000}" type="number" />₫
+  </div>
+  <div class="fw-semibold" style="text-decoration: line-through; color: gray; font-size: 14px;">
+    <fmt:formatNumber value="${p.price_old * 1000}" type="number" />₫
+  </div>
+</div>
+
                       </div>
                     </a>
                   </div>
