@@ -25,8 +25,8 @@
 
                 <div class="row g-3 mb-3">
                     <div class="col-md-3">
-                        <div class="small text-muted">User ID</div>
-                        <div class="fw-semibold">${order.userId}</div>
+                        <div class="small text-muted">Người dùng</div>
+                        <div class="fw-semibold">${userName}</div>
                     </div>
                     <div class="col-md-3">
                         <div class="small text-muted">Trạng thái</div>
