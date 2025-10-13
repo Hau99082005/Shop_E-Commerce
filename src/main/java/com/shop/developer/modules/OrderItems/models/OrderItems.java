@@ -1,5 +1,7 @@
 package com.shop.developer.modules.OrderItems.models;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +19,8 @@ public class OrderItems {
     private Long id;
 
     private int quantity;
-    private double price;
+    @Column(name = "price", precision = 10, scale = 3)
+    private BigDecimal price;
 
     @Column(name = "order_id")
     private int orderId;
@@ -28,7 +31,7 @@ public class OrderItems {
     public OrderItems() {
         super();
     }
-    public OrderItems(int quantity, double price, int order_id, int product_id) {
+    public OrderItems(int quantity, BigDecimal price, int order_id, int product_id) {
         super();
         this.quantity = quantity;
         this.price = price;
@@ -47,10 +50,10 @@ public class OrderItems {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
     public int getOrderId() {

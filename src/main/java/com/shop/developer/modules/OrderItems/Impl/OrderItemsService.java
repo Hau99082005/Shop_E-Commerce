@@ -1,5 +1,6 @@
 package com.shop.developer.modules.OrderItems.Impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,13 @@ public class OrderItemsService {
         orderItemsRepository.deleteById(id);
     }
 
-    public OrderItems updateQuantityAndPrice(Long id, Integer quantity, Double price) {
+    public OrderItems updateQuantityAndPrice(Long id, Integer quantity, BigDecimal price) {
         OrderItems oi = orderItemsRepository.findById(id).orElse(null);
         if (oi == null) return null;
         if (quantity != null && quantity > 0) {
             oi.setQuantity(quantity);
         }
-        if (price != null && price >= 0) {
+        if (price != null && price.compareTo(BigDecimal.ZERO) >= 0) {
             oi.setPrice(price);
         }
         return orderItemsRepository.save(oi);

@@ -1,5 +1,6 @@
 package com.shop.developer.modules.OrderItems.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class OrderItemsController {
     public String create(@RequestParam("order_id") int orderId,
                          @RequestParam("product_id") int productId,
                          @RequestParam("quantity") int quantity,
-                         @RequestParam("price") double price) {
+                         @RequestParam("price") BigDecimal price) {
         OrderItems orderItems = new OrderItems();
         orderItems.setOrderId(orderId);
         orderItems.setProductId(productId);
@@ -51,7 +52,7 @@ public class OrderItemsController {
     @PostMapping("/update")
     public String update(@RequestParam("id") Long id,
                          @RequestParam(name = "quantity", required = false) Integer quantity,
-                         @RequestParam(name = "price", required = false) Double price,
+                         @RequestParam(name = "price", required = false) BigDecimal price,
                          @RequestParam(name = "orderId", required = false) Integer orderId) {
         orderItemsService.updateQuantityAndPrice(id, quantity, price);
         return orderId != null

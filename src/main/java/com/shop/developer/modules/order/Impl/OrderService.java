@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.math.BigDecimal;
+import com.shop.developer.util.StringHelper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,8 +81,8 @@ public class OrderService {
             oi.setProductId(line.getProduct().getId().intValue());
             oi.setQuantity(line.getQuantity());
 
-            double unitPrice = line.getProduct().getPrice() != null ? line.getProduct().getPrice() * 1000 : 0.0;
-            oi.setPrice(unitPrice); // lưu đơn giá
+            double unitPrice = line.getProduct().getPrice() != null ? line.getProduct().getPrice() : 0.0;
+            oi.setPrice(BigDecimal.valueOf(unitPrice)); // lưu đơn giá (đơn vị gốc), khi hiển thị nhân 1000
             items.add(oi);
         }
 
@@ -92,6 +94,6 @@ public class OrderService {
     }
 
     private String generateOrderCode() {
-        return "ORD-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        return "ORD-" + StringHelper.randomString(8).toUpperCase();
     }
 }

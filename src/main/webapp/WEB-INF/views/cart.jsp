@@ -94,7 +94,9 @@
                 <span class="fw-semibold">Tổng</span>
                 <span class="fw-bold text-primary"><fmt:formatNumber value="${total}" type="number" groupingUsed="true" maxFractionDigits="0"/> ₫</span>
               </div>
-              <a href="#" class="btn btn-primary w-100 mt-3">Thanh toán</a>
+              <form method="post" action="${pageContext.request.contextPath}/checkout" class="mt-3">
+                <button type="submit" class="btn btn-primary w-100">Thanh toán</button>
+              </form>
             </div>
           </div>
         </div>
