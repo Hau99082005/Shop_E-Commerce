@@ -3,6 +3,9 @@ package com.shop.developer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,8 @@ import com.shop.developer.modules.OrderItems.repositories.OrderItemsRepository;
 import com.shop.developer.modules.order.Impl.OrderService;
 import com.shop.developer.modules.order.models.Order;
 import com.shop.developer.modules.users.models.User;
+import com.shop.developer.modules.products.models.Products;
+import com.shop.developer.modules.products.repositories.ProductsRepository;
 import com.shop.developer.util.Helper;
 
 import jakarta.servlet.http.HttpSession;
@@ -31,6 +36,9 @@ public class Checkout {
 
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private ProductsRepository productsRepository;
 
     @SuppressWarnings("unchecked")
     @PostMapping("/checkout")
@@ -64,9 +72,24 @@ public class Checkout {
         List<OrderItems> items = orderItemsRepository.findByOrderId(order.getId().intValue());
         if (items == null) items = new ArrayList<>();
         double total = Helper.total(items);
+
+        Set<Long> pids = new HashSet<>();
+        for (OrderItems it : items) {
+            if (it != null) pids.add((long) it.getProductId());
+        }
+        Map<Integer, String> productsMap = new HashMap<>();
+        if (!pids.isEmpty()) {
+            for (Products p : productsRepository.findAllById(pids)) {
+                if (p != null && p.getId() != null) {
+                    productsMap.put(p.getId().intValue(), p.getName());
+                }
+            }
+        }
+
         model.addAttribute("order", order);
         model.addAttribute("items", items);
         model.addAttribute("total", total);
+        model.addAttribute("productsMap", productsMap);
         return "checkout-sucess"; // trả về views
     }
 }

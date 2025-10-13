@@ -27,7 +27,16 @@
           <c:forEach var="it" items="${items}" varStatus="st">
             <tr>
               <td>${st.index + 1}</td>
-              <td>${it.productId}</td>
+             <td>
+  <c:choose>
+    <c:when test="${not empty productsMap && productsMap[it.productId] != null}">
+      ${productsMap[it.productId]}
+    </c:when>
+    <c:otherwise>
+      ${it.productId}
+    </c:otherwise>
+  </c:choose>
+</td>
               <td class="text-end"><fmt:formatNumber value="${it.price * 1000}" type="currency" currencySymbol=""/>đ</td>
               <td class="text-center">${it.quantity}</td>
               <td class="text-end"><fmt:formatNumber value="${it.price * it.quantity * 1000}" type="currency" currencySymbol=""/>đ</td>

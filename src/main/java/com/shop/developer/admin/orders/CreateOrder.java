@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.shop.developer.modules.order.models.Order;
 import com.shop.developer.modules.order.repositories.OrderRepository;
+import com.shop.developer.modules.users.models.User;
+import com.shop.developer.modules.users.repositories.UserRepository;
 import com.shop.developer.util.StringHelper;
 
 @Controller
@@ -19,6 +21,9 @@ public class CreateOrder {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/create")
     public String createForm(Model model) {
         Order order = new Order();
@@ -26,6 +31,8 @@ public class CreateOrder {
         order.setCode(StringHelper.randomString(8).toUpperCase());
         model.addAttribute("order", order);
         model.addAttribute("mode", "create");
+        java.util.List<User> users = userRepository.findAll();
+        model.addAttribute("users", users);
         return "admin/orders/edit";
     }
 
