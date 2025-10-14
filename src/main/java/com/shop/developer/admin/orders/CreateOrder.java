@@ -28,7 +28,7 @@ public class CreateOrder {
     public String createForm(Model model) {
         Order order = new Order();
         order.setStatus(true);
-        order.setCode(StringHelper.randomString(8).toUpperCase());
+        order.setCode(StringHelper.randomString(8).toUpperCase()); //nó sẽ lấy ra 8 kí tự ngẫu nhiên từ StringHelper và đồng thời viết hoa
         model.addAttribute("order", order);
         model.addAttribute("mode", "create");
         java.util.List<User> users = userRepository.findAll();
