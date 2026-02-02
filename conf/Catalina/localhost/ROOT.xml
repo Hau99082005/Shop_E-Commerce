@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Context docBase="C:/Users/ACER/Documents/GitHub/Java_Spring_Boot/src/main/webapp">
-  <Resources cacheMaxSize="10240">
+  <Resources cacheMaxSize="512000">
     <PreResources base="C:/Users/ACER/Documents/GitHub/Java_Spring_Boot/target/classes" className="org.apache.catalina.webresources.DirResourceSet" webAppMount="/WEB-INF/classes"/>
     <PostResources base="C:/Users/ACER/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.5.6/spring-boot-starter-data-jpa-3.5.6.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/spring-boot-starter-data-jpa-3.5.6.jar"/>
     <PostResources base="C:/Users/ACER/.m2/repository/org/springframework/boot/spring-boot-starter/3.5.6/spring-boot-starter-3.5.6.jar" className="org.apache.catalina.webresources.FileResourceSet" webAppMount="/WEB-INF/lib/spring-boot-starter-3.5.6.jar"/>
