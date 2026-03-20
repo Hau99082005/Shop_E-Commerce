@@ -5,18 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.shop.developer.modules.banner.models.Banner;
 import com.shop.developer.modules.banner.repositories.BannerRespository;
 
 
 
-@RestController
-@RequestMapping("/api/banner")
-@CrossOrigin(origins = "*") // Cho phép gọi từ frontend hoặc Postman
 @Service
 public class BannerService {
      @Autowired

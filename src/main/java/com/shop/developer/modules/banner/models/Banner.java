@@ -5,13 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "banner")
 public class Banner {
@@ -23,7 +16,13 @@ public class Banner {
     private String image;
     private Boolean status;
 
-    public Banner(Object o, String banner, String image, boolean b) {
+    public Banner() {}
+
+    public Banner(Long id, String title, String image, Boolean status) {
+        this.id = id;
+        this.title = title;
+        this.image = image;
+        this.status = status;
     }
 
     public Long getId() {

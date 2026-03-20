@@ -35,21 +35,41 @@ public class Checkout {
     private OrderItemsRepository orderItemsRepository;
 
     @Autowired
-    private HttpSession session;
-
-    @Autowired
     private ProductsRepository productsRepository;
 
     @SuppressWarnings("unchecked")
+    @GetMapping("/checkout")
+    public String showCheckout(HttpSession httpSession, Model model) {
+        try {
+            Object cartObj = httpSession.getAttribute("CART");
+            Map<Long, Cart.CartLine> cart = null;
+            if (cartObj instanceof Map) {
+                cart = (Map<Long, Cart.CartLine>) cartObj;
+            }
+            if (cart == null || cart.isEmpty()) {
+                return "redirect:/cart";
+            }
+            List<Cart.CartLine> items = new ArrayList<>(cart.values());
+            double total = items.stream().mapToDouble(Cart.CartLine::getLineTotal).sum();
+            model.addAttribute("items", items);
+            model.addAttribute("total", total);
+            return "checkout";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/cart";
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     @PostMapping("/checkout")
-    public String doCheckout() {
-        Object cartObj = session.getAttribute("CART");
+    public String doCheckout(HttpSession httpSession) {
+        Object cartObj = httpSession.getAttribute("CART");
         Map<Long, Cart.CartLine> cart = null;
         if (cartObj instanceof Map) {
             cart = (Map<Long, Cart.CartLine>) cartObj;
         }
         Integer userId = null;
-        Object u = session.getAttribute("user");
+        Object u = httpSession.getAttribute("user");
         if (u instanceof User) {
             Long uid = ((User) u).getId();
             if (uid != null) userId = uid.intValue();
@@ -58,8 +78,7 @@ public class Checkout {
         if (order == null) {
             return "redirect:/cart";
         }
-        // xoá giỏ hàng sau khi thanh toán thành công
-        session.setAttribute("CART", new java.util.LinkedHashMap<Long, Cart.CartLine>());
+        httpSession.setAttribute("CART", new java.util.LinkedHashMap<Long, Cart.CartLine>());
         return "redirect:/checkout/success/" + order.getCode();
     }
 

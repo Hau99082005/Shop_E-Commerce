@@ -53,7 +53,7 @@ public class CreateBanner {
             return "redirect:/login";
         }
         if (image == null || image.isEmpty()) {
-            return "redirect:/admin/banner/create";
+            return "redirect:/admin/banners/create";
         }
         String filename = null;
         try {
