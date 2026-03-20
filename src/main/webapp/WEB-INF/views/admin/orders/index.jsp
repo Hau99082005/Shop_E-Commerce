@@ -53,15 +53,25 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    <span class="badge ${o.status ? 'bg-success' : 'bg-secondary'}">
+                                    <span class="badge ${o.status ? 'bg-warning text-dark' : 'bg-secondary'}">
                                         ${o.status ? 'Đang xử lý' : 'Đã hủy'}
                                     </span>
+                                    <c:if test="${o.processed}">
+                                        <span class="badge bg-success ms-1">Đã xử lý</span>
+                                    </c:if>
                                 </td>
                                 <td>${o.createdAt}</td>
                                 <td class="text-end">
                                     <a class="btn btn-sm btn-outline-info" href="${pageContext.request.contextPath}/admin/orders/${o.id}">
-                                        <i class="fa-solid fa-list"></i> Xem đơn hàng
+                                        <i class="fa-solid fa-list"></i> Xem
                                     </a>
+                                    <c:if test="${!o.processed}">
+                                        <form method="post" action="${pageContext.request.contextPath}/admin/orders/${o.id}/approve" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Duyệt đơn hàng này?');">
+                                                <i class="fa-solid fa-check"></i> Duyệt
+                                            </button>
+                                        </form>
+                                    </c:if>
                                     <a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/admin/orders/${o.id}/edit">
                                         <i class="fa-solid fa-pen-to-square"></i> Sửa
                                     </a>

@@ -53,6 +53,14 @@
                         </select>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Duyệt đơn</label>
+                        <select name="processed" class="form-select">
+                            <option value="false" ${!order.processed ? 'selected' : ''}>Chưa xử lý</option>
+                            <option value="true" ${order.processed ? 'selected' : ''}>Đã xử lý</option>
+                        </select>
+                    </div>
+
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary">Lưu</button>
                         <a href="${pageContext.request.contextPath}/admin/orders" class="btn btn-secondary">Hủy</a>

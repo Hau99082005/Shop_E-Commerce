@@ -41,7 +41,8 @@ public class EditOrder {
     public String update(@PathVariable Long id,
                          @RequestParam(required = false) String code,
                          @RequestParam(name = "userId", required = false) Integer userId,
-                         @RequestParam(name = "status", required = false) Boolean status) {
+                         @RequestParam(name = "status", required = false) Boolean status,
+                         @RequestParam(name = "processed", required = false) Boolean processed) {
         Order order = orderRepository.findById(id).orElse(null);
         if (order == null) {
             return "redirect:/admin/orders";
@@ -49,7 +50,18 @@ public class EditOrder {
         if (code != null && !code.isBlank()) order.setCode(code);
         if (userId != null) order.setUserId(userId);
         if (status != null) order.setStatus(status);
+        if (processed != null) order.setProcessed(processed);
         orderRepository.save(order);
+        return "redirect:/admin/orders";
+    }
+
+    @PostMapping("/{id}/approve")
+    public String approve(@PathVariable Long id) {
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order != null) {
+            order.setProcessed(true);
+            orderRepository.save(order);
+        }
         return "redirect:/admin/orders";
     }
 }

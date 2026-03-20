@@ -20,6 +20,8 @@ public class Order {
     private Long id;
     private String code;
     private Boolean status;
+    @Column(name="processed", nullable=false, columnDefinition="tinyint(1) default 0")
+    private Boolean processed = false;
     @Column(name="user_id")
     private int userId;
       @Column(name="created_at", updatable=false)
@@ -73,4 +75,11 @@ public class Order {
         this.userId = userId;
     }
 
+    public Boolean getProcessed() {
+        return processed != null ? processed : false;
+    }
+
+    public void setProcessed(Boolean processed) {
+        this.processed = processed;
+    }
 }

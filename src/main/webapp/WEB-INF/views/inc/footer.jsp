@@ -33,7 +33,7 @@
                     <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-link">Đăng nhập</a></li>
                     <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-link">Giỏ hàng</a></li>
                     <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-link">Danh sách yêu thích</a></li>
-                    <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-link">Theo dõi đơn hàng</a></li>
+                    <li class="mb-2"><a href="${pageContext.request.contextPath}/my-orders" class="text-white text-decoration-none hover-link">Theo dõi đơn hàng</a></li>
                     <li class="mb-2"><a href="#" class="text-white text-decoration-none hover-link">Trợ giúp</a></li>
                 </ul>
             </div>

@@ -7,7 +7,19 @@
   <div class="bg-white rounded-3 shadow-sm p-4">
     <h3 class="mb-3">Thanh toán thành công</h3>
     <p class="text-muted mb-1">Mã đơn hàng: <strong>${order.code}</strong></p>
-    <p class="text-muted">Trạng thái: <span class="badge bg-success">${order.status ? 'Đang xử lý' : 'Đã hủy'}</span></p>
+    <p class="text-muted">Trạng thái:
+      <c:choose>
+        <c:when test="${order.processed}">
+          <span class="badge bg-success">Đã xử lý</span>
+        </c:when>
+        <c:when test="${order.status}">
+          <span class="badge bg-warning text-dark">Đang xử lý</span>
+        </c:when>
+        <c:otherwise>
+          <span class="badge bg-secondary">Đã hủy</span>
+        </c:otherwise>
+      </c:choose>
+    </p>
 
     <hr/>
 
@@ -59,6 +71,7 @@
 
     <div class="d-flex gap-2 mt-3">
       <a href="${pageContext.request.contextPath}/" class="btn btn-primary">Về trang chủ</a>
+      <a href="${pageContext.request.contextPath}/my-orders" class="btn btn-outline-primary">Xem đơn hàng của tôi</a>
       <a href="${pageContext.request.contextPath}/cart" class="btn btn-outline-secondary">Tiếp tục mua sắm</a>
     </div>
   </div>
